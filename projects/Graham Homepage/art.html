@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Art & Experiments - Graham Wahlberg</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+</head>
+<body>
+    <aside id="sidebar">
+        <div id="logo-sidebar">
+            <h1><a href="index.html">Graham Wahlberg</a></h1>
+        </div>
+        <nav id="sidebar-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="now.html">Now</a></li>
+                <li class="nav-item-projects">
+                    <button id="projects-toggle-btn" aria-expanded="false" aria-controls="projects-submenu">
+                        Projects <span class="expander-icon" aria-hidden="true">▼</span>
+                    </button>
+                    <ul id="projects-submenu" class="submenu" hidden>
+                        <!-- Project links will be populated by JavaScript -->
+                    </ul>
+                </li>
+                <li><a href="art.html">Art</a></li>
+                <li><a href="business-ideas.html">Business Ideas</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="links.html">Links</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div id="page-content-wrapper">
+        <main>
+            <section id="art" class="content-section">
+                <h2>Art & Experiments</h2>
+                <p>A space for creative coding experiments and small visual pieces.</p>
+                <div class="art-grid" aria-label="Collection of art projects">
+                    <!-- Art items/canvas containers will be added here -->
+                    <article class="art-item">
+                        <h3>Canvas Piece 1</h3>
+                        <p>Description of the art.</p>
+                        <!-- Placeholder for canvas or iframe -->
+                        <div class="canvas-placeholder" style="width:100%; height:200px; background:#eee; display:flex; align-items:center; justify-content:center;">Art Preview</div>
+                    </article>
+                     <article class="art-item">
+                        <h3>Interactive Sketch</h3>
+                        <p>A generative art piece that responds to mouse movement.</p>
+                        <div class="canvas-placeholder" style="width:100%; height:200px; background:#e9e9e9; display:flex; align-items:center; justify-content:center;">Sketch Preview</div>
+                    </article>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; <span id="current-year"></span> Graham Wahlberg. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>

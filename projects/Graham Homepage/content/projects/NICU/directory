@@ -1,0 +1,59 @@
+nicu-parent-guide/
+│
+├── index.html                  # Main landing page
+├── css/
+│   ├── styles.css              # Main stylesheet
+│   └── print.css               # Print-friendly styles for printable resources
+│
+├── js/
+│   ├── script.js               # Main JavaScript file
+│   └── analytics.js            # Optional: for future site analytics
+│
+├── images/
+│   ├── logo/                   # Site logo files
+│   │   ├── nicu-journey-logo.png
+│   │   └── nicu-journey-logo-small.png
+│   │
+│   ├── icons/                  # UI icons
+│   │   ├── medical-equipment/  # Icons for medical equipment
+│   │   └── navigation/         # Icons for navigation
+│   │
+│   ├── photos/                 # Photos for stories and content
+│   │   ├── babies/             # NICU baby photos (with permissions)
+│   │   ├── equipment/          # Photos of NICU equipment
+│   │   └── staff/              # Photos of nurses/staff (with permissions)
+│   │
+│   └── illustrations/          # Custom illustrations to explain concepts
+│
+├── sections/                   # Optional: separate HTML files for each major section
+│   ├── first-24-hours.html
+│   ├── understanding-care.html
+│   ├── advocacy.html
+│   ├── feeding.html
+│   ├── self-care.html
+│   ├── discharge.html
+│   └── stories.html
+│
+├── resources/                  # Downloadable resources
+│   ├── pdfs/
+│   │   ├── nicu-glossary.pdf
+│   │   ├── equipment-guide.pdf
+│   │   ├── feeding-log.pdf
+│   │   └── discharge-checklist.pdf
+│   │
+│   ├── printables/             # Printable worksheets and checklists
+│   │   ├── daily-care-tracker.pdf
+│   │   ├── medication-schedule.pdf
+│   │   └── doctor-questions.pdf
+│   │
+│   └── audio/                  # Optional: relaxation or informational audio
+│
+├── stories/                    # Individual NICU parent stories
+│   ├── preemie-stories.html
+│   ├── term-baby-stories.html
+│   └── twins-stories.html
+│
+└── about/                      # Information about the site creators
+    ├── about-us.html
+    ├── contact.html
+    └── privacy-policy.html

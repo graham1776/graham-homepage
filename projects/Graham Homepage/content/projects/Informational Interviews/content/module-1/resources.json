@@ -1,0 +1,59 @@
+{
+    "moduleId": 1,
+    "title": "Introduction: The Hidden Career Accelerator",
+    "subtitle": "How a simple conversation can become your most powerful tool for career advancement, networking, and opportunity discovery.",
+    "estimatedReadingTime": "5 minutes",
+    "keyTakeaways": [
+      "Informational interviews can transform your career trajectory",
+      "The author secured 6 out of 7 jobs through informational interviews",
+      "Most jobs (58-81%) are filled through networking rather than job postings",
+      "Two magic questions can unlock hidden opportunities",
+      "This approach works across industries and career stages"
+    ],
+    "relatedModules": [2, 7],
+    "downloadableResources": [
+      {
+        "title": "Success Story Worksheet",
+        "description": "Document your own success story after implementing the techniques",
+        "fileName": "success-story-worksheet.pdf",
+        "url": "../../resources/worksheets/success-story-worksheet.pdf"
+      },
+      {
+        "title": "Introduction Checklist",
+        "description": "Key concepts to understand before moving forward",
+        "fileName": "introduction-checklist.pdf",
+        "url": "../../resources/checklists/introduction-checklist.pdf"
+      }
+    ],
+    "relatedTools": [
+      {
+        "title": "30-Day Challenge Plan",
+        "description": "Start your informational interview journey with a structured approach",
+        "url": "../../tools/scheduler.html"
+      }
+    ],
+    "successStories": [
+      {
+        "name": "Graham Wahlberg",
+        "title": "Real Estate Developer",
+        "story": "Over the course of my career, I've had the opportunity to do hundreds of informational interviews with professionals ranging from interns to Fortune 500 CEOs. Through them I've been given investment opportunities, jobs, mentorship, new networks, colleagues and friends. Six out of my seven jobs came through them.",
+        "imageUrl": "../../images/success-stories/gw.jpg"
+      },
+      {
+        "name": "Jen M.",
+        "title": "Nurse, Neonatal Unit",
+        "story": "After applying to myriad jobs throughout southern California, across many hospitals, she was never able to make this leap to a different unit. She didn't have the right expertise, according to HR. Finally conceding to give the 'informational interview' approach a try, she talked with her OBGYN. Literally before Jen could finish, her OB said: 'You know, I am like this [two fingers crossed] with the CEO of that hospital. Would you like me to put a good word in?' And the rest is history. Jen now has her dream job.",
+        "imageUrl": "../../images/success-stories/jen.jpg"
+      }
+    ],
+    "quotes": [
+      {
+        "text": "I'm glad you asked that question. It is the best question you can ask anyone, and I wouldn't have respected you if you hadn't.",
+        "author": "Billionaire Developer"
+      },
+      {
+        "text": "You never know if you could be sitting across the table from someone who could change the course of your entire life. You'd never know if you didn't ask.",
+        "author": "Billionaire Developer"
+      }
+    ]
+  }

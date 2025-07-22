@@ -1,0 +1,44 @@
+[
+  {
+    "fileName": "2024-08-01-my-first-post.md",
+    "title": "My First Journey into Blogging",
+    "date": "2024-08-01",
+    "snippet": "Exploring the reasons behind starting this blog and what to expect in future posts. A quick dive into the setup and my aspirations for this space."
+  },
+  {
+    "fileName": "2024-08-05-cool-css-trick.md",
+    "title": "A Cool CSS Trick I Learned for Dynamic Layouts",
+    "date": "2024-08-05",
+    "snippet": "Discovered a neat way to achieve a common UI pattern with modern CSS Grid and Flexbox. Here's how it works and why it's useful for responsive design."
+  },
+  {
+    "fileName": "2024-08-10-thoughts-on-static-sites.md",
+    "title": "Why I Chose a Static Site Generator for My Portfolio",
+    "date": "2024-08-10",
+    "snippet": "Delving into the benefits of static sites: speed, security, and simplicity. My experience moving away from traditional CMS."
+  },
+  {
+    "fileName": "2023-12-18-glimpse-of-the-kingdom.md",
+    "title": "Glimpse of the Kingdom",
+    "date": "2023-12-18",
+    "snippet": "A personal reflection on serving breakfast to homeless people with my children and the profound connections that emerged from stepping outside our comfort zone."
+  },
+  {
+    "fileName": "2020-11-25-peter-thiel.md",
+    "title": "Peter Thiel: A Curated Collection of Resources",
+    "date": "2020-11-25",
+    "snippet": "A comprehensive guide to Peter Thiel's talks, podcasts, writings, and ideas for anyone interested in learning more about one of Silicon Valley's most contrarian thinkers."
+  },
+  {
+    "fileName": "2016-04-12-questions-to-ask-a-landlord.md",
+    "title": "Questions to Ask a Landlord: Commercial Lease Negotiation Guide",
+    "date": "2016-04-12",
+    "snippet": "A comprehensive list of questions to ask when negotiating a commercial lease, covering everything from basic terms to hidden costs and potential incentives."
+  },
+  {
+    "fileName": "2016-03-22-informational-interviews-follow-up.md",
+    "title": "Informational Interviews: What to Do When They Don't Want to Meet",
+    "date": "2016-03-22",
+    "snippet": "Strategies for networking and conducting informational interviews when people prefer email over in-person meetings, and how to make the most of remote networking opportunities."
+  }
+]

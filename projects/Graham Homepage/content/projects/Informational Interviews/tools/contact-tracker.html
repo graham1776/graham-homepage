@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Tracker | Informational Interviews</title>
+  <link rel="stylesheet" href="../styles/main.css">
+  <meta name="description" content="A simple printable tool to track your informational interview contacts and follow-ups.">
+  <style>
+    .tracker-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: var(--spacing-3xl);
+      page-break-inside: auto;
+    }
+    
+    .tracker-table th {
+      background-color: var(--primary);
+      color: var(--white);
+      font-weight: 600;
+      text-align: left;
+      padding: var(--spacing-md);
+      page-break-inside: avoid;
+    }
+    
+    .tracker-table td {
+      border: 1px solid var(--gray);
+      padding: var(--spacing-md);
+      vertical-align: top;
+      height: 1.5rem;
+      page-break-inside: avoid;
+    }
+    
+    .tracker-table tr:nth-child(even) {
+      background-color: var(--light);
+    }
+    
+    .notes-box {
+      padding: var(--spacing-lg);
+      border: 1px solid var(--gray);
+      border-radius: var(--border-radius-md);
+      background-color: var(--white);
+      min-height: 5rem;
+      font-style: italic;
+      margin-bottom: var(--spacing-2xl);
+      page-break-inside: avoid;
+    }
+    
+    .header-row {
+      page-break-before: auto; 
+      page-break-after: auto;
+    }
+    
+    .col-small {
+      width: 8%;
+    }
+    
+    .col-medium {
+      width: 15%;
+    }
+    
+    .col-large {
+      width: 20%;
+    }
+    
+    .tool-section {
+      margin-bottom: var(--spacing-2xl);
+      background-color: var(--white);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--box-shadow);
+    }
+    
+    .tool-section-title {
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      color: var(--primary);
+      font-size: var(--text-xl);
+    }
+    
+    .print-button {
+      background-color: var(--primary);
+      color: var(--white);
+      border: none;
+      padding: var(--spacing-sm) var(--spacing-lg);
+      border-radius: var(--border-radius-md);
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    .print-button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    @media print {
+      body {
+        padding: 0;
+        background-color: white;
+      }
+      
+      .no-print {
+        display: none;
+      }
+      
+      .container {
+        width: 100%;
+        max-width: 100%;
+      }
+      
+      .tracker-table {
+        page-break-inside: auto;
+      }
+      
+      .tracker-table tr {
+        page-break-inside: avoid;
+        page-break-after: auto;
+      }
+      
+      .tracker-table th {
+        background-color: var(--primary) !important;
+        color: white !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      
+      .tool-section {
+        page-break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Universal Site Header for TOOLS directory -->
+<header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">Informational Interviews</a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#journey">The Process</a></li>
+          <li><a href="../index.html#stories">Success Stories</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Tools <span class="dropdown-icon">▼</span></a>
+            <ul class="dropdown-menu">
+              <li><a href="email-generator.html">Email Templates</a></li>
+              <li><a href="question-bank.html">Question Library</a></li>
+              <li><a href="contact-tracker.html">Contact Tracker</a></li>
+              <li><a href="scheduler.html">30-Day Plan</a></li>
+            </ul>
+          </li>
+          <li><a href="../content/module-1/index.html" class="cta-button">Read the Guide</a></li>
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+  
+  
+  <main class="container" style="margin-top: 120px; padding-bottom: var(--spacing-4xl);">
+    <div class="tool-header">
+      <h1 class="section-title">Contact Tracker</h1>
+      <p>A simple printable tool to organize and follow up with your professional connections from informational interviews.</p>
+    </div>
+    
+    <div class="tool-section no-print">
+      <div class="tool-section-title">Getting Started</div>
+      <p>This printable tracker helps you record key details from your informational interviews and plan your follow-ups. Print as many copies as needed to track all your connections.</p>
+      <p>Remember the real power of informational interviews comes from <strong>consistent follow-up</strong> and the <strong>two magic questions</strong>: "Is there anyone else you think I should talk to?" and "Is there an opportunity for me at your company?"</p>
+      
+      <button class="print-button" onclick="window.print()">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="6 9 6 2 18 2 18 9"></polyline>
+          <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+          <rect x="6" y="14" width="12" height="8"></rect>
+        </svg>
+        Print Tracker
+      </button>
+    </div>
+    
+    <table class="tracker-table">
+      <thead>
+        <tr class="header-row">
+          <th class="col-small">#</th>
+          <th class="col-medium">Name</th>
+          <th class="col-medium">Company & Role</th>
+          <th class="col-small">Date</th>
+          <th class="col-medium">Contact Info</th>
+          <th class="col-large">Key Insights & Advice</th>
+          <th class="col-medium">Referrals Provided</th>
+          <th class="col-small">Follow-up Date</th>
+          <th class="col-small">Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- 10 empty rows -->
+        <tr>
+          <td>1</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td>10</td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+        </tr>
+      </tbody>
+    </table>
+    
+    <h3>Additional Notes & Action Items</h3>
+    <div class="notes-box">
+    
+    </div>
+    
+    <div class="tool-section no-print">
+      <div class="tool-section-title">How to Use This Tracker</div>
+      <ul>
+        <li><strong>Name:</strong> Full name of your contact</li>
+        <li><strong>Company & Role:</strong> Current organization and position</li>
+        <li><strong>Date:</strong> When you had your informational interview</li>
+        <li><strong>Contact Info:</strong> Email, phone, LinkedIn URL, etc.</li>
+        <li><strong>Key Insights & Advice:</strong> The most valuable information or guidance they shared</li>
+        <li><strong>Referrals Provided:</strong> Names of people they suggested you contact</li>
+        <li><strong>Follow-up Date:</strong> When you plan to reach out next (30, 60, 90 days)</li>
+        <li><strong>Status:</strong> "To follow up," "Replied," "Ongoing," etc.</li>
+      </ul>
+    </div>
+    
+    <div class="tool-section no-print">
+      <div class="tool-section-title">Effective Follow-up Strategies</div>
+      <ol>
+        <li><strong>Send a thank-you email</strong> within 24-48 hours of your meeting</li>
+        <li><strong>Connect on LinkedIn</strong> with a personalized note referencing your conversation</li>
+        <li><strong>Share relevant articles</strong> or information that relates to your discussion</li>
+        <li><strong>Update them on your progress</strong> if you took action based on their advice</li>
+        <li><strong>Schedule regular check-ins</strong> (every 2-3 months) to maintain the relationship</li>
+        <li><strong>Be specific</strong> when asking for additional help or referrals</li>
+        <li><strong>Offer value in return</strong> whenever possible - make it a two-way relationship</li>
+      </ol>
+    </div>
+    
+    <!-- FAB Container for mobile navigation -->
+    <div class="fab-container no-print">
+      <button class="fab" id="fab-button" aria-label="Quick Navigation">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="12" y1="5" x2="12" y2="19"></line>
+          <line x1="5" y1="12" x2="19" y2="12"></line>
+        </svg>
+      </button>
+      <div class="fab-menu" id="fab-menu">
+        <a href="email-generator.html" class="fab-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+            <polyline points="22,6 12,13 2,6"></polyline>
+          </svg>
+          Email Templates
+        </a>
+        <a href="question-bank.html" class="fab-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+            <line x1="12" y1="17" x2="12.01" y2="17"></line>
+          </svg>
+          Question Library
+        </a>
+        <a href="contact-tracker.html" class="fab-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Contact Tracker
+        </a>
+        <a href="scheduler.html" class="fab-item">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+            <line x1="16" y1="2" x2="16" y2="6"></line>
+            <line x1="8" y1="2" x2="8" y2="6"></line>
+            <line x1="3" y1="10" x2="21" y2="10"></line>
+          </svg>
+          30-Day Plan
+        </a>
+      </div>
+    </div>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 The Power of Informational Interviews by Graham Wahlberg</p>
+      <div class="footer-separator"></div>
+      <p>From a book written 10 years ago, now transformed into an interactive guide.</p>
+    </div>
+  </footer>
+
+  <script src="../scripts/main.js"></script>
+  <script>
+    // FAB Menu Toggle
+    document.getElementById('fab-button').addEventListener('click', function() {
+      document.getElementById('fab-menu').classList.toggle('active');
+    });
+    
+    // Close FAB menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const fabButton = document.getElementById('fab-button');
+      const fabMenu = document.getElementById('fab-menu');
+      
+      if (!fabButton.contains(event.target) && !fabMenu.contains(event.target)) {
+        fabMenu.classList.remove('active');
+      }
+    });
+  </script>
+</body>
+</html>

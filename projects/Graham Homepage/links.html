@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Links - Graham Wahlberg</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+</head>
+<body>
+    <aside id="sidebar">
+        <div id="logo-sidebar">
+            <h1><a href="index.html">Graham Wahlberg</a></h1>
+        </div>
+        <nav id="sidebar-nav">
+            <ul>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="index.html#about">About</a></li>
+                <li><a href="now.html">Now</a></li>
+                <li class="nav-item-projects">
+                    <button id="projects-toggle-btn" aria-expanded="false" aria-controls="projects-submenu">
+                        Projects <span class="expander-icon" aria-hidden="true">▼</span>
+                    </button>
+                    <ul id="projects-submenu" class="submenu" hidden>
+                        <!-- Project links will be populated by JavaScript -->
+                    </ul>
+                </li>
+                <li><a href="art.html">Art</a></li>
+                <li><a href="business-ideas.html">Business Ideas</a></li>
+                <li><a href="blog.html">Blog</a></li>
+                <li><a href="links.html">Links</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </aside>
+
+    <div id="page-content-wrapper">
+        <main>
+            <section id="links" class="content-section">
+                <h2>Links</h2>
+                <p>A curated list of websites, tools, and resources I find useful or interesting.</p>
+                <ul>
+                    <li><a href="https://developer.mozilla.org/en-US/" target="_blank" rel="noopener noreferrer">MDN Web Docs</a> - The ultimate resource for web developers.</li>
+                    <li><a href="https://css-tricks.com/" target="_blank" rel="noopener noreferrer">CSS-Tricks</a> - For all things CSS, and more.</li>
+                    <li><a href="https://www.smashingmagazine.com/" target="_blank" rel="noopener noreferrer">Smashing Magazine</a> - For professional web designers and developers.</li>
+                    <li><a href="https://figma.com/" target="_blank" rel="noopener noreferrer">Figma</a> - My go-to design tool.</li>
+                </ul>
+            </section>
+        </main>
+
+        <footer>
+            <p>&copy; <span id="current-year"></span> Graham Wahlberg. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script type="module" src="index.tsx"></script>
+</body>
+</html>

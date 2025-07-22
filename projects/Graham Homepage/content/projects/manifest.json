@@ -1,0 +1,26 @@
+[
+  {
+    "folderName": "Family Homepage",
+    "title": "Family Homepage",
+    "description": "Project: Family Homepage",
+    "entryPoint": "index.html"
+  },
+  {
+    "folderName": "Informational Interviews",
+    "title": "Informational Interviews",
+    "description": "Project: Informational Interviews",
+    "entryPoint": "index.html"
+  },
+  {
+    "folderName": "NICU",
+    "title": "NICU",
+    "description": "Project: NICU",
+    "entryPoint": "index.html"
+  },
+  {
+    "folderName": "The Real Estate Poster",
+    "title": "The Real Estate Poster",
+    "description": "Project: The Real Estate Poster",
+    "entryPoint": "index.html"
+  }
+]

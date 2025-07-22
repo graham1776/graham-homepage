@@ -1,0 +1,87 @@
+[
+  {
+    "fileName": "art.js",
+    "title": "Animated Rectangles",
+    "description": "Random grayscale rectangles with rotation and animation"
+  },
+  {
+    "fileName": "art2.js",
+    "title": "Colorful Rectangles",
+    "description": "Multi-colored overlapping rectangles with random positioning"
+  },
+  {
+    "fileName": "art3seed.js",
+    "title": "Seeded Rectangles",
+    "description": "Deterministic colorful rectangles using seeded random generation"
+  },
+  {
+    "fileName": "chanel-watch.js",
+    "title": "Chanel Watch",
+    "description": "Detailed analog watch face with subdials and gold accents"
+  },
+  {
+    "fileName": "circuit-board.js",
+    "title": "Circuit Board",
+    "description": "Technical drawing inspired by electronic circuit layouts"
+  },
+  {
+    "fileName": "classic-watch.js",
+    "title": "Classic Watch",
+    "description": "Traditional timepiece with multiple subdials and tachymeter"
+  },
+  {
+    "fileName": "concentric-waves.js",
+    "title": "Concentric Waves",
+    "description": "Rhythmic line patterns creating interference and resonance"
+  },
+  {
+    "fileName": "flow-field.js",
+    "title": "Flow Field",
+    "description": "Organic flowing lines following mathematical vector fields"
+  },
+  {
+    "fileName": "geometric-maze.js",
+    "title": "Geometric Maze",
+    "description": "Recursive geometric patterns forming maze-like structures"
+  },
+  {
+    "fileName": "hatching-portrait.js",
+    "title": "Hatching Portrait",
+    "description": "Cross-hatching technique creating depth and form"
+  },
+  {
+    "fileName": "mountain-topo.js",
+    "title": "Mountain Topography",
+    "description": "Procedural mountain ridge generator with topographic contour lines"
+  },
+  {
+    "fileName": "nomos-tangente.js",
+    "title": "Nomos Tangente",
+    "description": "Minimalist German design with blue accents and subdial"
+  },
+  {
+    "fileName": "omega-speedmaster.js",
+    "title": "Omega Speedmaster",
+    "description": "Professional chronograph with tachymeter and subdials"
+  },
+  {
+    "fileName": "particle-waves.js",
+    "title": "Particle Waves",
+    "description": "Flowing wave patterns with interactive particles"
+  },
+  {
+    "fileName": "perspective-city.js",
+    "title": "Perspective Boxes",
+    "description": "2-point perspective drawing with original gradient style"
+  },
+  {
+    "fileName": "spiral-motion.js",
+    "title": "Spiral Motion",
+    "description": "Animated spiral with rotating particles"
+  },
+  {
+    "fileName": "stippled-landscape.js",
+    "title": "Stippled Landscape",
+    "description": "Pointillism technique creating rolling hills and sky"
+  }
+]

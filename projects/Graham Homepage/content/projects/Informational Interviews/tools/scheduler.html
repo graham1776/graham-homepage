@@ -1,0 +1,596 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>30-Day Plan | Informational Interviews</title>
+  <link rel="stylesheet" href="../styles/main.css">
+  <meta name="description" content="A structured 30-day action plan to implement informational interviews and build your professional network systematically.">
+  <style>
+    .week-container {
+      margin-bottom: var(--spacing-3xl);
+    }
+    
+    .week-header {
+      background-color: var(--primary);
+      color: var(--white);
+      padding: var(--spacing-lg);
+      border-radius: var(--border-radius-md) var(--border-radius-md) 0 0;
+      font-weight: 600;
+      font-size: var(--text-lg);
+    }
+    
+    .days-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--spacing-lg);
+      padding: var(--spacing-lg);
+      background-color: var(--white);
+      border-radius: 0 0 var(--border-radius-md) var(--border-radius-md);
+      box-shadow: var(--box-shadow);
+    }
+    
+    .day-card {
+      background-color: var(--light);
+      border-radius: var(--border-radius-md);
+      padding: var(--spacing-lg);
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .day-number {
+      display: inline-block;
+      background-color: var(--primary-light);
+      color: var(--primary);
+      padding: var(--spacing-xs) var(--spacing-md);
+      border-radius: 20px;
+      font-size: var(--text-sm);
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+    }
+    
+    .day-title {
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      font-size: var(--text-lg);
+      color: var(--dark);
+    }
+    
+    .day-tasks {
+      padding-left: var(--spacing-lg);
+      margin: 0;
+    }
+    
+    .day-tasks li {
+      margin-bottom: var(--spacing-sm);
+      font-size: var(--text-sm);
+    }
+    
+    .day-tasks li:last-child {
+      margin-bottom: 0;
+    }
+    
+    .weekend-card .day-number {
+      background-color: rgba(139, 92, 246, 0.1);
+      color: var(--accent);
+    }
+    
+    .filters {
+      display: flex;
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--spacing-xl);
+      align-items: center;
+    }
+    
+    .filter-group {
+      display: flex;
+      gap: var(--spacing-sm);
+      align-items: center;
+    }
+    
+    .filter-label {
+      font-weight: 500;
+      font-size: var(--text-sm);
+    }
+    
+    .filter-select {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius-sm);
+      border: 1px solid var(--gray);
+      background-color: var(--white);
+      font-size: var(--text-sm);
+    }
+    
+    .print-button {
+      display: inline-block;
+      background-color: var(--primary);
+      color: var(--white);
+      padding: var(--spacing-sm) var(--spacing-xl);
+      border-radius: var(--border-radius-md);
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      font-size: var(--text-base);
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    .print-button:hover {
+      background-color: var(--primary-dark);
+    }
+    
+    .tool-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto var(--spacing-2xl);
+    }
+    
+    .tool-header p {
+      color: var(--gray);
+      font-size: var(--text-lg);
+    }
+    
+    .intro-text {
+      margin-bottom: var(--spacing-xl);
+    }
+    
+    @media print {
+      .site-header, 
+      .filters, 
+      .print-section,
+      .menu-toggle {
+        display: none !important;
+      }
+      
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      
+      .week-container {
+        page-break-inside: avoid;
+      }
+      
+      .day-card {
+        break-inside: avoid;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .days-container {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Universal Site Header for TOOLS directory -->
+<header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">Informational Interviews</a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#journey">The Process</a></li>
+          <li><a href="../index.html#stories">Success Stories</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Tools <span class="dropdown-icon">▼</span></a>
+            <ul class="dropdown-menu">
+              <li><a href="email-generator.html">Email Templates</a></li>
+              <li><a href="question-bank.html">Question Library</a></li>
+              <li><a href="contact-tracker.html">Contact Tracker</a></li>
+              <li><a href="scheduler.html">30-Day Plan</a></li>
+            </ul>
+          </li>
+          <li><a href="../content/module-1/index.html" class="cta-button">Read the Guide</a></li>
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+  
+  
+  <main class="container" style="margin-top: 120px; padding-bottom: var(--spacing-4xl);">
+    <div class="tool-header">
+      <h1 class="section-title">30-Day Informational Interview Plan</h1>
+      <p>A structured approach to launching your informational interview strategy with daily actions that build momentum.</p>
+    </div>
+    
+    <div class="intro-text">
+      <p>This 30-day plan breaks down the informational interview process into manageable daily activities. Each week focuses on a different phase of the process, from preparation to building long-term relationships. By following this plan, you'll establish a systematic approach to networking that will continue to yield opportunities well beyond the initial 30 days.</p>
+    </div>
+    
+    <div class="filters">
+      <div class="filter-group">
+        <span class="filter-label">Focus Area:</span>
+        <select class="filter-select" id="filter-focus">
+          <option value="all">All Activities</option>
+          <option value="preparation">Preparation</option>
+          <option value="outreach">Outreach</option>
+          <option value="interview">Interviewing</option>
+          <option value="follow-up">Follow-Up</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <span class="filter-label">Week:</span>
+        <select class="filter-select" id="filter-week">
+          <option value="all">All Weeks</option>
+          <option value="week1">Week 1: Preparation</option>
+          <option value="week2">Week 2: Initial Contact</option>
+          <option value="week3">Week 3: First Interviews</option>
+          <option value="week4">Week 4: Momentum Building</option>
+        </select>
+      </div>
+      
+      <div class="print-section">
+        <button class="print-button" onclick="window.print()">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px; vertical-align: middle;">
+            <polyline points="6 9 6 2 18 2 18 9"></polyline>
+            <path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"></path>
+            <rect x="6" y="14" width="12" height="8"></rect>
+          </svg>
+          Print Plan
+        </button>
+      </div>
+    </div>
+    
+    <div class="week-container" id="week1">
+      <div class="week-header">Week 1: Preparation & Network Mapping</div>
+      <div class="days-container">
+        <div class="day-card" data-focus="preparation">
+          <div class="day-number">Day 1</div>
+          <div class="day-title">Network Audit</div>
+          <ul class="day-tasks">
+            <li>Create spreadsheet to track contacts</li>
+            <li>List every professional contact you already know</li>
+            <li>Categorize by industry, role, and relationship strength</li>
+            <li>Identify 5-10 "warmest" connections to approach first</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="preparation">
+          <div class="day-number">Day 2</div>
+          <div class="day-title">Target Industry Research</div>
+          <ul class="day-tasks">
+            <li>Define 2-3 target industries or roles</li>
+            <li>Research major companies and key players</li>
+            <li>Find industry-specific news and trends</li>
+            <li>Note conversation topics relevant to these industries</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="preparation">
+          <div class="day-number">Day 3</div>
+          <div class="day-title">First-Degree Connections</div>
+          <ul class="day-tasks">
+            <li>Identify 5 closest connections to contact first</li>
+            <li>Prepare your brief introduction and purpose</li>
+            <li>Create calendar reminders for follow-ups</li>
+            <li>Draft personalized outreach messages</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="preparation">
+          <div class="day-number">Day 4</div>
+          <div class="day-title">LinkedIn Optimization</div>
+          <ul class="day-tasks">
+            <li>Update LinkedIn profile with current information</li>
+            <li>Add relevant skills and experience</li>
+            <li>Follow target companies and thought leaders</li>
+            <li>Join relevant industry groups</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="preparation">
+          <div class="day-number">Day 5</div>
+          <div class="day-title">Template Creation</div>
+          <ul class="day-tasks">
+            <li>Create email templates for warm contacts</li>
+            <li>Create email templates for cold contacts</li>
+            <li>Create follow-up email templates</li>
+            <li>Draft thank-you note templates</li>
+          </ul>
+        </div>
+        
+        <div class="day-card weekend-card" data-focus="preparation">
+          <div class="day-number">Days 6-7</div>
+          <div class="day-title">Question Preparation</div>
+          <ul class="day-tasks">
+            <li>Create a standard list of questions</li>
+            <li>Develop industry-specific questions</li>
+            <li>Practice introducing yourself concisely</li>
+            <li>Review and refine your "elevator pitch"</li>
+            <li>Prepare conversation starters for awkward silences</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="week-container" id="week2">
+      <div class="week-header">Week 2: Making Initial Contact</div>
+      <div class="days-container">
+        <div class="day-card" data-focus="outreach">
+          <div class="day-number">Day 8</div>
+          <div class="day-title">First Contact Wave</div>
+          <ul class="day-tasks">
+            <li>Send emails to your 5 closest connections</li>
+            <li>Schedule calendar reminders for follow-ups</li>
+            <li>Update tracking spreadsheet</li>
+            <li>Connect with these contacts on LinkedIn</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="outreach">
+          <div class="day-number">Day 9</div>
+          <div class="day-title">Alumni Connections</div>
+          <ul class="day-tasks">
+            <li>Research alumni from your school in target fields</li>
+            <li>Identify 5-10 potential alumni connections</li>
+            <li>Draft personalized outreach emails</li>
+            <li>Find shared experiences or professors to mention</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="outreach">
+          <div class="day-number">Day 10</div>
+          <div class="day-title">Alumni Outreach</div>
+          <ul class="day-tasks">
+            <li>Send emails to 3-5 alumni connections</li>
+            <li>Connect with them on LinkedIn with personalized note</li>
+            <li>Update your tracking spreadsheet</li>
+            <li>Research any responses received</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="outreach">
+          <div class="day-number">Day 11</div>
+          <div class="day-title">Second-Degree Connections</div>
+          <ul class="day-tasks">
+            <li>Identify 5 second-degree connections to target</li>
+            <li>Request introductions from mutual connections</li>
+            <li>Prepare for initial responses</li>
+            <li>Review LinkedIn for potential introduction paths</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="follow-up">
+          <div class="day-number">Day 12</div>
+          <div class="day-title">First Follow-Ups</div>
+          <ul class="day-tasks">
+            <li>Send follow-up emails to non-responders (from Day 8)</li>
+            <li>Respond promptly to any replies received</li>
+            <li>Schedule upcoming interviews</li>
+            <li>Update tracking spreadsheet with statuses</li>
+          </ul>
+        </div>
+        
+        <div class="day-card weekend-card" data-focus="interview">
+          <div class="day-number">Days 13-14</div>
+          <div class="day-title">Interview Preparation</div>
+          <ul class="day-tasks">
+            <li>Research background of each scheduled interviewee</li>
+            <li>Customize your question list for each person</li>
+            <li>Practice active listening techniques</li>
+            <li>Prepare your notebook with questions</li>
+            <li>Review company news for each interviewee</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="week-container" id="week3">
+      <div class="week-header">Week 3: First Interviews & Expanding Reach</div>
+      <div class="days-container">
+        <div class="day-card" data-focus="interview">
+          <div class="day-number">Day 15</div>
+          <div class="day-title">Conduct First Interviews</div>
+          <ul class="day-tasks">
+            <li>Conduct 1-2 scheduled informational interviews</li>
+            <li>Take detailed notes during conversations</li>
+            <li>Remember to ask the two magic questions</li>
+            <li>Be punctual and professionally dressed</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="follow-up">
+          <div class="day-number">Day 16</div>
+          <div class="day-title">Post-Interview Process</div>
+          <ul class="day-tasks">
+            <li>Send same-day thank you emails</li>
+            <li>Record key insights and advice received</li>
+            <li>Add new referrals to your tracking spreadsheet</li>
+            <li>Connect on LinkedIn if not already connected</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="preparation">
+          <div class="day-number">Day 17</div>
+          <div class="day-title">Industry Group Research</div>
+          <ul class="day-tasks">
+            <li>Research professional organizations in your field</li>
+            <li>Find networking events or meetups to attend</li>
+            <li>Join relevant online communities or forums</li>
+            <li>Follow industry thought leaders on social media</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="outreach">
+          <div class="day-number">Day 18</div>
+          <div class="day-title">New Contact Wave</div>
+          <ul class="day-tasks">
+            <li>Reach out to referrals from first interviews</li>
+            <li>Contact 3-5 new potential connections</li>
+            <li>Join and introduce yourself in online communities</li>
+            <li>Mention your referral source in outreach emails</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="outreach">
+          <div class="day-number">Day 19</div>
+          <div class="day-title">Content Engagement</div>
+          <ul class="day-tasks">
+            <li>Engage with content from your network</li>
+            <li>Comment on LinkedIn posts from target connections</li>
+            <li>Share relevant industry articles with your network</li>
+            <li>Ask thoughtful questions on industry forums</li>
+          </ul>
+        </div>
+        
+        <div class="day-card weekend-card" data-focus="interview">
+          <div class="day-number">Days 20-21</div>
+          <div class="day-title">More Interviews & Follow-Ups</div>
+          <ul class="day-tasks">
+            <li>Conduct additional informational interviews</li>
+            <li>Send follow-up emails to recent contacts</li>
+            <li>Review progress and adjust strategy as needed</li>
+            <li>Update tracking spreadsheet with all activity</li>
+            <li>Practice the "two magic questions" if needed</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    
+    <div class="week-container" id="week4">
+      <div class="week-header">Week 4: Momentum & Long-term Strategy</div>
+      <div class="days-container">
+        <div class="day-card" data-focus="follow-up">
+          <div class="day-number">Day 22</div>
+          <div class="day-title">Strategic Analysis</div>
+          <ul class="day-tasks">
+            <li>Review notes from all interviews conducted</li>
+            <li>Identify patterns and valuable insights</li>
+            <li>Note potential opportunities mentioned</li>
+            <li>Identify most promising connections to nurture</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="follow-up">
+          <div class="day-number">Day 23</div>
+          <div class="day-title">Opportunity Follow-Up</div>
+          <ul class="day-tasks">
+            <li>Follow up on any potential opportunities</li>
+            <li>Send additional information requested by contacts</li>
+            <li>Schedule second conversations where appropriate</li>
+            <li>Update resume based on feedback received</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="outreach">
+          <div class="day-number">Day 24</div>
+          <div class="day-title">Cold Outreach</div>
+          <ul class="day-tasks">
+            <li>Identify 5 "dream connections" in your field</li>
+            <li>Research their background thoroughly</li>
+            <li>Draft highly personalized outreach messages</li>
+            <li>Find mutual connections or interests to mention</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="outreach">
+          <div class="day-number">Day 25</div>
+          <div class="day-title">Network Event</div>
+          <ul class="day-tasks">
+            <li>Attend an industry event or meetup</li>
+            <li>Set goal to meet 3-5 new connections</li>
+            <li>Practice your elevator pitch in person</li>
+            <li>Bring business cards or digital contact info</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="follow-up">
+          <div class="day-number">Day 26</div>
+          <div class="day-title">Event Follow-Up</div>
+          <ul class="day-tasks">
+            <li>Connect with new contacts from event</li>
+            <li>Send personalized follow-up messages</li>
+            <li>Request informational interviews where appropriate</li>
+            <li>Add new contacts to your tracking spreadsheet</li>
+          </ul>
+        </div>
+        
+        <div class="day-card" data-focus="follow-up">
+          <div class="day-number">Day 27</div>
+          <div class="day-title">Value-Add Strategy</div>
+          <ul class="day-tasks">
+            <li>Identify ways to provide value to your network</li>
+            <li>Share helpful resources with 3-5 connections</li>
+            <li>Make mutually beneficial introductions</li>
+            <li>Send articles or information of interest to contacts</li>
+          </ul>
+        </div>
+        
+        <div class="day-card weekend-card" data-focus="preparation">
+          <div class="day-number">Days 28-30</div>
+          <div class="day-title">Ongoing Plan Development</div>
+          <ul class="day-tasks">
+            <li>Conduct remaining scheduled interviews</li>
+            <li>Review overall strategy effectiveness</li>
+            <li>Create ongoing monthly networking plan</li>
+            <li>Set specific goals for the next 60 days</li>
+            <li>Identify 3-5 most valuable connections to maintain</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    // Simple filtering functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterFocus = document.getElementById('filter-focus');
+      const filterWeek = document.getElementById('filter-week');
+      const dayCards = document.querySelectorAll('.day-card');
+      const weekContainers = document.querySelectorAll('.week-container');
+      
+      function applyFilters() {
+        const focusValue = filterFocus.value;
+        const weekValue = filterWeek.value;
+        
+        weekContainers.forEach(week => {
+          week.style.display = 'block';
+        });
+        
+        dayCards.forEach(card => {
+          card.style.display = 'block';
+          
+          const focus = card.getAttribute('data-focus');
+          const weekId = card.closest('.week-container').id;
+          
+          if ((focusValue !== 'all' && focus !== focusValue) || 
+              (weekValue !== 'all' && weekId !== weekValue)) {
+            card.style.display = 'none';
+          }
+        });
+        
+        // Hide empty weeks
+        weekContainers.forEach(week => {
+          const visibleCards = week.querySelectorAll('.day-card[style="display: block"]');
+          if (visibleCards.length === 0) {
+            week.style.display = 'none';
+          }
+        });
+      }
+      
+      filterFocus.addEventListener('change', applyFilters);
+      filterWeek.addEventListener('change', applyFilters);
+      
+      // Toggle mobile menu
+      const menuToggle = document.querySelector('.menu-toggle');
+      const mainNav = document.querySelector('.main-nav');
+      
+      if (menuToggle && mainNav) {
+        menuToggle.addEventListener('click', function() {
+          mainNav.classList.toggle('active');
+        });
+      }
+    });
+  </script>
+</body>
+</html>

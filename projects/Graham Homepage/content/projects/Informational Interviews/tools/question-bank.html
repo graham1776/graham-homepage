@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question Library | Informational Interviews</title>
+  <link rel="stylesheet" href="../styles/main.css">
+  <meta name="description" content="A curated library of effective questions to ask during informational interviews, organized by career stage and conversation phase.">
+  <style>
+    .question-category {
+      margin-bottom: var(--spacing-3xl);
+    }
+    
+    .questions-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: var(--spacing-lg);
+      margin-top: var(--spacing-lg);
+    }
+    
+    .question-card {
+      background-color: var(--white);
+      border-radius: var(--border-radius-md);
+      padding: var(--spacing-lg);
+      box-shadow: var(--box-shadow);
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .question-text {
+      font-weight: 600;
+      margin-bottom: var(--spacing-md);
+      font-size: var(--text-lg);
+      color: var(--primary);
+    }
+    
+    .question-description {
+      color: var(--gray);
+      font-size: var(--text-sm);
+      margin-bottom: var(--spacing-md);
+      flex-grow: 1;
+    }
+    
+    .question-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: var(--spacing-xs);
+    }
+    
+    .question-tag {
+      font-size: var(--text-xs);
+      background-color: var(--primary-light);
+      color: var(--primary);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: 20px;
+      display: inline-block;
+    }
+    
+    .filters {
+      display: flex;
+      gap: var(--spacing-md);
+      flex-wrap: wrap;
+      margin-bottom: var(--spacing-xl);
+      align-items: center;
+    }
+    
+    .filter-group {
+      display: flex;
+      gap: var(--spacing-sm);
+      align-items: center;
+    }
+    
+    .filter-label {
+      font-weight: 500;
+      font-size: var(--text-sm);
+    }
+    
+    .filter-select {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius-sm);
+      border: 1px solid var(--gray);
+      background-color: var(--white);
+      font-size: var(--text-sm);
+    }
+    
+    .search-container {
+      position: relative;
+      flex-grow: 1;
+      max-width: 400px;
+    }
+    
+    .search-input {
+      width: 100%;
+      padding: var(--spacing-sm) var(--spacing-md);
+      padding-left: calc(var(--spacing-md) * 2 + 16px);
+      border-radius: var(--border-radius-sm);
+      border: 1px solid var(--gray);
+      font-size: var(--text-sm);
+    }
+    
+    .search-icon {
+      position: absolute;
+      left: var(--spacing-md);
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+    
+    .copy-button {
+      background-color: transparent;
+      border: none;
+      color: var(--primary);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-xs);
+      cursor: pointer;
+      font-size: var(--text-xs);
+      padding: var(--spacing-xs) var(--spacing-sm);
+      border-radius: var(--border-radius-sm);
+      margin-top: auto;
+      align-self: flex-start;
+    }
+    
+    .copy-button:hover {
+      background-color: var(--primary-light);
+    }
+    
+    .tool-header {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto var(--spacing-2xl);
+    }
+    
+    .tool-header p {
+      color: var(--gray);
+      font-size: var(--text-lg);
+    }
+    
+    .fab-container {
+      position: fixed;
+      bottom: var(--spacing-xl);
+      right: var(--spacing-xl);
+      z-index: 100;
+    }
+    
+    .fab {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: var(--box-shadow-lg);
+      cursor: pointer;
+      color: var(--white);
+      font-size: var(--text-2xl);
+      border: none;
+    }
+    
+    .fab-menu {
+      position: absolute;
+      bottom: 70px;
+      right: 0;
+      background-color: var(--white);
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--box-shadow-lg);
+      padding: var(--spacing-md);
+      display: none;
+      flex-direction: column;
+      gap: var(--spacing-sm);
+      min-width: 200px;
+    }
+    
+    .fab-menu.active {
+      display: flex;
+    }
+    
+    .fab-item {
+      padding: var(--spacing-sm) var(--spacing-md);
+      border-radius: var(--border-radius-sm);
+      text-decoration: none;
+      color: var(--dark);
+      display: flex;
+      align-items: center;
+      gap: var(--spacing-sm);
+    }
+    
+    .fab-item:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .questions-container {
+        grid-template-columns: 1fr;
+      }
+      
+      .filters {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      
+      .search-container {
+        max-width: 100%;
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Universal Site Header for TOOLS directory -->
+<header class="site-header">
+    <div class="container">
+      <a href="../index.html" class="logo">Informational Interviews</a>
+      <nav class="main-nav">
+        <ul>
+          <li><a href="../index.html#about">About</a></li>
+          <li><a href="../index.html#journey">The Process</a></li>
+          <li><a href="../index.html#stories">Success Stories</a></li>
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle">Tools <span class="dropdown-icon">▼</span></a>
+            <ul class="dropdown-menu">
+              <li><a href="email-generator.html">Email Templates</a></li>
+              <li><a href="question-bank.html">Question Library</a></li>
+              <li><a href="contact-tracker.html">Contact Tracker</a></li>
+              <li><a href="scheduler.html">30-Day Plan</a></li>
+            </ul>
+          </li>
+          <li><a href="../content/module-1/index.html" class="cta-button">Read the Guide</a></li>
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+  
+  
+  <main class="container" style="margin-top: 120px; padding-bottom: var(--spacing-4xl);">
+    <div class="tool-header">
+      <h1 class="section-title">Question Library</h1>
+      <p>A curated collection of effective questions for every phase of the informational interview process, organized by career stage and conversation goal.</p>
+    </div>
+    
+    <div class="filters">
+      <div class="search-container">
+        <svg class="search-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="11" cy="11" r="8"></circle>
+          <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+        <input type="text" class="search-input" placeholder="Search questions..." id="search-questions">
+      </div>
+      
+      <div class="filter-group">
+        <span class="filter-label">Phase:</span>
+        <select class="filter-select" id="filter-phase">
+          <option value="all">All Phases</option>
+          <option value="beginning">Beginning</option>
+          <option value="middle">Middle</option>
+          <option value="end">End</option>
+          <option value="follow-up">Follow-Up</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <span class="filter-label">Career Stage:</span>
+        <select class="filter-select" id="filter-stage">
+          <option value="all">All Stages</option>
+          <option value="junior">Junior (0-1 years)</option>
+          <option value="starter">Starter (1-5 years)</option>
+          <option value="trailblazer">Trailblazer (5-10 years)</option>
+          <option value="mentor">Mentor (10-20 years)</option>
+          <option value="legend">Legend (20+ years)</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <span class="filter-label">Goal:</span>
+        <select class="filter-select" id="filter-goal">
+          <option value="all">All Goals</option>
+          <option value="career-path">Career Path</option>
+          <option value="industry-insight">Industry Insight</option>
+          <option value="company-culture">Company Culture</option>
+          <option value="skill-development">Skill Development</option>
+          <option value="job-opportunities">Job Opportunities</option>
+          <option value="personal-growth">Personal Growth</option>
+        </select>
+      </div>
+    </div>
+    
+    <div class="question-category" id="beginning-questions">
+      <h2>Beginning the Conversation</h2>
+      <p>These questions help break the ice and establish rapport in the first 5-10 minutes of your meeting.</p>
+      
+      <div class="questions-container">
+        <div class="question-card" data-phase="beginning" data-stage="all" data-goal="career-path">
+          <div class="question-text">Could you tell me about your career journey and how you got to where you are today?</div>
+          <div class="question-description">This open-ended question invites the interviewee to share their story in a way that feels comfortable to them, while giving you valuable context about their path.</div>
+          <div class="question-tags">
+            <span class="question-tag">Ice Breaker</span>
+            <span class="question-tag">Career Path</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="beginning" data-stage="all" data-goal="industry-insight">
+          <div class="question-text">What does a typical day look like in your role?</div>
+          <div class="question-description">This helps you understand the day-to-day reality of their position, which can differ significantly from formal job descriptions.</div>
+          <div class="question-tags">
+            <span class="question-tag">Day-to-Day</span>
+            <span class="question-tag">Role Clarity</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="beginning" data-stage="mentor legend" data-goal="career-path">
+          <div class="question-text">What attracted you to this industry when you first started, and has that changed over time?</div>
+          <div class="question-description">This question works especially well with senior professionals, inviting reflection on their early career motivation compared to their current perspective.</div>
+          <div class="question-tags">
+            <span class="question-tag">Reflective</span>
+            <span class="question-tag">Industry Evolution</span>
+            <span class="question-tag">Senior Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="beginning" data-stage="all" data-goal="company-culture">
+          <div class="question-text">How would you describe the culture at [Company Name]?</div>
+          <div class="question-description">This offers insight into the working environment and company values from an insider's perspective.</div>
+          <div class="question-tags">
+            <span class="question-tag">Company Culture</span>
+            <span class="question-tag">Work Environment</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="question-category" id="middle-questions">
+      <h2>Middle: Diving Deeper</h2>
+      <p>These questions help you gather specific insights and advice during the main portion of your conversation.</p>
+      
+      <div class="questions-container">
+        <div class="question-card" data-phase="middle" data-stage="all" data-goal="industry-insight">
+          <div class="question-text">What major changes have you seen in this industry since you started, and where do you see it heading?</div>
+          <div class="question-description">This question gives you historical context and future trends from someone with first-hand experience in the field.</div>
+          <div class="question-tags">
+            <span class="question-tag">Industry Trends</span>
+            <span class="question-tag">Future Outlook</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="middle" data-stage="starter trailblazer" data-goal="skill-development">
+          <div class="question-text">What skills or experiences do you think are most valuable for someone looking to advance in this field?</div>
+          <div class="question-description">This helps you identify the most important skills to develop for career growth, beyond what might be listed in job descriptions.</div>
+          <div class="question-tags">
+            <span class="question-tag">Skill Development</span>
+            <span class="question-tag">Career Growth</span>
+            <span class="question-tag">Early to Mid-Career</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="middle" data-stage="all" data-goal="personal-growth">
+          <div class="question-text">What's been the biggest challenge in your career, and how did you overcome it?</div>
+          <div class="question-description">This question invites candid reflection and often reveals valuable lessons about resilience and problem-solving.</div>
+          <div class="question-tags">
+            <span class="question-tag">Challenges</span>
+            <span class="question-tag">Personal Growth</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="middle" data-stage="junior starter" data-goal="career-path">
+          <div class="question-text">If you were in my position, what would you focus on or do differently than you did?</div>
+          <div class="question-description">This question invites personalized advice based on their own career path and what they've learned along the way.</div>
+          <div class="question-tags">
+            <span class="question-tag">Career Advice</span>
+            <span class="question-tag">Personalized</span>
+            <span class="question-tag">Early Career</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="middle" data-stage="mentor legend" data-goal="industry-insight">
+          <div class="question-text">What do you think are the biggest misconceptions people have about this industry or role?</div>
+          <div class="question-description">This question often reveals insider perspectives that can help you avoid common pitfalls or adjust your expectations.</div>
+          <div class="question-tags">
+            <span class="question-tag">Industry Insight</span>
+            <span class="question-tag">Reality Check</span>
+            <span class="question-tag">Senior Perspective</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="middle" data-stage="all" data-goal="company-culture">
+          <div class="question-text">How does your company approach work-life balance and professional development?</div>
+          <div class="question-description">This gives you insight into company culture and values around employee wellbeing and growth.</div>
+          <div class="question-tags">
+            <span class="question-tag">Work-Life Balance</span>
+            <span class="question-tag">Professional Development</span>
+            <span class="question-tag">Company Culture</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="question-category" id="end-questions">
+      <h2>End: The Magic Questions</h2>
+      <p>These critical questions help you transition from a one-time conversation to ongoing opportunities and connections.</p>
+      
+      <div class="questions-container">
+        <div class="question-card" data-phase="end" data-stage="all" data-goal="job-opportunities">
+          <div class="question-text">Is there an opportunity for someone with my background at your company right now?</div>
+          <div class="question-description">This direct question opens the door to potential job opportunities without being too pushy.</div>
+          <div class="question-tags">
+            <span class="question-tag">Magic Question</span>
+            <span class="question-tag">Job Opportunities</span>
+            <span class="question-tag">Direct</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="end" data-stage="all" data-goal="career-path">
+          <div class="question-text">Is there anyone else you think I should talk to learn more about this field?</div>
+          <div class="question-description">This question helps you expand your network and gain additional perspectives and connections.</div>
+          <div class="question-tags">
+            <span class="question-tag">Magic Question</span>
+            <span class="question-tag">Network Expansion</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="end" data-stage="all" data-goal="personal-growth">
+          <div class="question-text">What books, resources, or experiences would you recommend for someone looking to develop in this field?</div>
+          <div class="question-description">This question helps you gain specific resources for continued learning and development.</div>
+          <div class="question-tags">
+            <span class="question-tag">Resources</span>
+            <span class="question-tag">Self-Development</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="end" data-stage="all" data-goal="career-path">
+          <div class="question-text">Would you mind if I reached out to you in the future with any follow-up questions?</div>
+          <div class="question-description">This question opens the door for ongoing communication and relationship building.</div>
+          <div class="question-tags">
+            <span class="question-tag">Relationship Building</span>
+            <span class="question-tag">Future Contact</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="question-category" id="follow-up-questions">
+      <h2>Follow-Up Communications</h2>
+      <p>These questions help you maintain connections and continue learning after your initial meeting.</p>
+      
+      <div class="questions-container">
+        <div class="question-card" data-phase="follow-up" data-stage="all" data-goal="career-path">
+          <div class="question-text">I followed your advice about [specific suggestion] and wanted to share how it's going. Do you have any further thoughts on my approach?</div>
+          <div class="question-description">This follow-up shows you valued their advice enough to act on it and creates an opportunity for continued guidance.</div>
+          <div class="question-tags">
+            <span class="question-tag">Progress Update</span>
+            <span class="question-tag">Ongoing Advice</span>
+            <span class="question-tag">All Levels</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="follow-up" data-stage="all" data-goal="industry-insight">
+          <div class="question-text">I just read this article about [industry trend] and thought of our conversation. Have you seen this development, and what's your take on it?</div>
+          <div class="question-description">Sharing relevant content provides value to them while creating a natural reason to reconnect and continue the professional relationship.</div>
+          <div class="question-tags">
+            <span class="question-tag">Content Sharing</span>
+            <span class="question-tag">Industry Trends</span>
+            <span class="question-tag">Relationship Building</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="follow-up" data-stage="all" data-goal="job-opportunities">
+          <div class="question-text">I've recently updated my resume based on our conversation. Would you be willing to take a quick look and provide any feedback?</div>
+          <div class="question-description">This question creates a specific, bounded request that most professionals can fulfill easily, while keeping you top of mind for potential opportunities.</div>
+          <div class="question-tags">
+            <span class="question-tag">Specific Request</span>
+            <span class="question-tag">Resume Feedback</span>
+            <span class="question-tag">Career Development</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+        
+        <div class="question-card" data-phase="follow-up" data-stage="all" data-goal="career-path">
+          <div class="question-text">I'll be attending [industry event/conference]. Will you be there as well? I'd love to reconnect briefly if our schedules align.</div>
+          <div class="question-description">This creates a natural opportunity for an in-person follow-up in a professional setting without imposing on their time.</div>
+          <div class="question-tags">
+            <span class="question-tag">Event Networking</span>
+            <span class="question-tag">In-Person Follow-Up</span>
+            <span class="question-tag">Professional Setting</span>
+          </div>
+          <button class="copy-button">
+            <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+            </svg>
+            Copy Question
+          </button>
+        </div>
+          

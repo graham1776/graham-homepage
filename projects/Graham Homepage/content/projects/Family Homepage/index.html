@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wahlberg Family Dashboard</title>
+  <meta name="description" content="Family homepage featuring scripture, milestones, and life in weeks">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #f7f8fa;
+      --text: #333;
+      --accent: #2d9cdb;
+      --progress-bg: #e0e0e0;
+      --progress-fill: #2d9cdb;
+      --max-age: 18;
+    }
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      padding: 2rem;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .panel {
+      flex: 1 1 300px;
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .panel h2 {
+      margin-top: 0;
+      color: var(--accent);
+      font-size: 1.25rem;
+    }
+    blockquote {
+      margin: 0;
+      font-style: italic;
+      color: #555;
+      border-left: 4px solid var(--accent);
+      padding-left: 1rem;
+      font-size:smaller;
+    }
+    .person {
+      margin-bottom: 1.5rem;
+    }
+    .progress {
+      background: var(--progress-bg);
+      border-radius: 9999px;
+      overflow: hidden;
+      height: 1rem;
+      margin: 0.5rem 0 0.25rem;
+    }
+    .progress__fill {
+      height: 100%;
+      width: 0;
+      background: var(--progress-fill);
+      transition: width 0.4s ease-in-out;
+    }
+    .person p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+    /* Life in weeks grid */
+    .life-panel .weeks-grid {
+      display: grid;
+      grid-template-columns: repeat(52, 8px);
+      grid-auto-rows: 8px;
+      gap: 2px;
+      margin-top: 1rem;
+    }
+    .life-panel .week {
+      background: var(--progress-bg);
+    }
+    .life-panel .week.past {
+      background: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- Scripture Panel -->
+    <div class="panel">
+      <h2>Psalm 90</h2>
+      <blockquote>
+        <p>Lord, you have been our dwelling place in all generations.<br>
+        Before the mountains were born or you brought forth the whole world, from everlasting to everlasting you are God.<br>
+        You return man to dust And say, “Return, O children of men.”<br>
+        For a thousand years in Your sight Are like yesterday when it passes By, Or as a watch in the night.<br>
+        You carry them away like a flood; They are like a sleep. In the morning they are like grass which sprouts up.<br>
+        In the morning it flourishes and sprouts up; Toward evening it fades and withers away.<br>
+        For we have been consumed by Your anger, And by Your wrath we are terrified.<br>
+        You have set our iniquities before You, Our secret sins in the light of Your presence.<br>
+        For all our days have passed away in Your wrath; We finish our years like a sigh.<br>
+        The days of our lives are seventy years; And if by reason of strength they are eighty years, Yet their boast is only labor and trouble; For it is soon cut off, and we fly away.<br>
+        Who knows the power of Your anger? For as the fear of You, So is Your wrath.<br>
+        So teach us to number our days, That we may gain a heart of wisdom.<br>
+        Return, O LORD! How long? And have compassion on Your servants.<br>
+        Oh, satisfy us early with Your mercy, That we may rejoice and be glad all our days!<br>
+        Make us glad according to the days in which You have afflicted us,<br>
+        The years in which we have seen evil.<br>
+        Let Your work appear to Your servants, And Your glory to their children.<br>
+        And let the beauty of the LORD our God be upon us, And establish the work of our hands for us; Yes, establish the work of our hands.</p>
+      </blockquote>
+    </div>
+    <!-- Milestones Panel -->
+    <div class="panel" id="milestones">
+      <div class="person">
+        <h2>Dating Anniversary</h2>
+        <p id="datingStatus"></p>
+      </div>
+      <div class="person">
+        <h2>Marriage Anniversary</h2>
+        <p id="jaimeStatus"></p>
+      </div>
+      <div class="person">
+        <h2>Finn</h2>
+        <div class="progress"><div class="progress__fill" id="progressFinn"></div></div>
+        <p id="finnAge"></p>
+      </div>
+      <div class="person">
+        <h2>Lucy</h2>
+        <div class="progress"><div class="progress__fill" id="progressLucy"></div></div>
+        <p id="lucyAge"></p>
+      </div>
+      <div class="person">
+        <h2>Ella</h2>
+        <div class="progress"><div class="progress__fill" id="progressElla"></div></div>
+        <p id="ellaAge"></p>
+      </div>
+      <div class="person">
+        <h2>Coen</h2>
+        <div class="progress"><div class="progress__fill" id="progressCoen"></div></div>
+        <p id="coenAge"></p>
+      </div>
+      <div class="person">
+        <h2>Ezra</h2>
+        <div class="progress"><div class="progress__fill" id="progressEzra"></div></div>
+        <p id="ezraAge"></p>
+      </div>
+    </div>
+    <!-- Life in Weeks Panel -->
+    <div class="panel life-panel">
+      <h2>Life in Weeks</h2>
+      <div class="weeks-grid" id="lifeGrid"></div>
+    </div>
+  </div>
+  <script>
+    const dates = {
+      DatingAnniv: new Date('2005-05-15'),
+      JaimeAnniv: new Date('2009-09-25'),
+      Finn: new Date('2013-05-01'),
+      Lucy: new Date('2014-09-27'),
+      Ella: new Date('2016-06-27'),
+      Coen: new Date('2018-01-11'),
+      Ezra: new Date('2020-03-19')
+    };
+    const birthDate = new Date('1987-06-23');
+    const now = Date.now();
+    function yearsSince(date) {
+      return (now - date.getTime()) / (1000 * 60 * 60 * 24 * 365);
+    }
+    // Dating status
+    const datingYears = yearsSince(dates.DatingAnniv).toFixed(2);
+    document.getElementById('datingStatus').textContent = `Dating ${datingYears} years`;
+    // Married status
+    const marriedYears = yearsSince(dates.JaimeAnniv).toFixed(2);
+    document.getElementById('jaimeStatus').textContent = `Married ${marriedYears} years`;
+    // Children progress
+    const maxAge = parseFloat(getComputedStyle(document.documentElement).getPropertyValue('--max-age'));
+    ['Finn', 'Lucy', 'Ella', 'Coen', 'Ezra'].forEach(name => {
+      const yrs = yearsSince(dates[name]);
+      const pct = Math.min(100, (yrs / maxAge) * 100).toFixed(1);
+      document.getElementById(`progress${name}`).style.width = `${pct}%`;
+      document.getElementById(`${name.toLowerCase()}Age`).textContent = `${yrs.toFixed(2)} years (${pct}% to adulthood)`;
+    });
+    // Life in weeks grid
+    const totalWeeks = 80 * 52;
+    const weeksLived = Math.floor((now - birthDate.getTime()) / (1000 * 60 * 60 * 24 * 7));
+    const grid = document.getElementById('lifeGrid');
+    for (let i = 0; i < totalWeeks; i++) {
+      const div = document.createElement('div');
+      div.classList.add('week');
+      if (i < weeksLived) div.classList.add('past');
+      grid.appendChild(div);
+    }
+  </script>
+</body>
+</html>

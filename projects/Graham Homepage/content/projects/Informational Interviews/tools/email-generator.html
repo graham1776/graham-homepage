@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Email Template Generator | Informational Interviews</title>
+  <link rel="stylesheet" href="../styles/main.css">
+  <style>
+    .tool-container {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 2rem;
+      background-color: var(--white);
+      border-radius: var(--border-radius-lg);
+      box-shadow: var(--box-shadow);
+    }
+    
+    .tool-header {
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    
+    .tool-description {
+      max-width: 700px;
+      margin: 0 auto 2rem;
+      text-align: center;
+      color: var(--gray);
+    }
+    
+    .tool-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    
+    .form-section {
+      background-color: var(--light);
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+    }
+    
+    .form-section h3 {
+      margin-top: 0;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+    }
+    
+    .form-group {
+      margin-bottom: 1rem;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.75rem;
+      border: 1px solid #ddd;
+      border-radius: var(--border-radius-sm);
+      font-size: 0.9rem;
+      font-family: inherit;
+    }
+    
+    .form-group textarea {
+      min-height: 100px;
+      resize: vertical;
+    }
+    
+    .email-preview {
+      grid-column: span 2;
+      background-color: var(--light);
+      padding: 1.5rem;
+      border-radius: var(--border-radius-md);
+      margin-top: 1rem;
+    }
+    
+    .email-preview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+    
+    .email-preview-content {
+      background-color: var(--white);
+      padding: 1rem;
+      border-radius: var(--border-radius-sm);
+      border: 1px solid #ddd;
+      white-space: pre-wrap;
+      font-family: monospace;
+      min-height: 200px;
+    }
+    
+    .action-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+    }
+    
+    .action-bar .tips {
+      font-size: 0.9rem;
+      color: var(--gray);
+    }
+    
+    .action-buttons {
+      display: flex;
+      gap: 1rem;
+    }
+    
+    .tips-box {
+      background-color: rgba(37, 99, 235, 0.05);
+      border-left: 4px solid var(--primary);
+      padding: 1rem;
+      border-radius: 0 var(--border-radius-sm) var(--border-radius-sm) 0;
+      margin-top: 1rem;
+    }
+    
+    .tips-box h4 {
+      color: var(--primary);
+      margin-top: 0;
+      margin-bottom: 0.5rem;
+      font-size: 1rem;
+    }
+    
+    .tips-box ul {
+      margin: 0;
+      padding-left: 1.5rem;
+      font-size: 0.9rem;
+    }
+    
+    .copy-notification {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background-color: var(--success);
+      color: white;
+      padding: 1rem;
+      border-radius: var(--border-radius-md);
+      box-shadow: var(--box-shadow);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      pointer-events: none;
+    }
+    
+    .copy-notification.visible {
+      opacity: 1;
+    }
+    
+    @media (max-width: 768px) {
+      .tool-form {
+        grid-template-columns: 1fr;
+      }
+      
+      .email-preview {
+        grid-column: 1;
+      }
+      
+      .action-bar {
+        flex-direction: column;
+        gap: 1rem;
+      }
+      
+      .action-bar .tips {
+        text-align: center;
+      }
+      
+      .action-buttons {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<!-- Universal Site Header for TOOLS directory -->
+<header class="site-header">
+  <div class="container">
+    <a href="../index.html" class="logo">Informational Interviews</a>
+    <nav class="main-nav">
+      <ul>
+        <li><a href="../index.html#about">About</a></li>
+        <li><a href="../index.html#journey">The Process</a></li>
+        <li><a href="../index.html#stories">Success Stories</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle">Tools <span class="dropdown-icon">▼</span></a>
+          <ul class="dropdown-menu">
+            <li><a href="email-generator.html">Email Templates</a></li>
+            <li><a href="question-bank.html">Question Library</a></li>
+            <li><a href="contact-tracker.html">Contact Tracker</a></li>
+            <li><a href="scheduler.html">30-Day Plan</a></li>
+          </ul>
+        </li>
+        <li><a href="../content/module-1/index.html" class="cta-button">Read the Guide</a></li>
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</header>
+
+  
+  <main style="padding-top: 120px; padding-bottom: 3rem;">
+    <div class="container">
+      <div class="tool-container">
+        <div class="tool-header">
+          <h1>Email Template Generator</h1>
+          <p class="tool-description">Create personalized, effective outreach emails for informational interviews with just a few clicks. Our templates are based on proven formats that consistently achieve 40%+ response rates.</p>
+        </div>
+        
+        <form id="email-form" class="tool-form">
+          <div class="form-section">
+            <h3>Your Information</h3>
+            
+            <div class="form-group">
+              <label for="yourName">Your Name</label>
+              <input type="text" id="yourName" name="yourName" placeholder="Jane Smith">
+            </div>
+            
+            <div class="form-group">
+              <label for="yourIdentity">Your Professional Identity</label>
+              <input type="text" id="yourIdentity" name="yourIdentity" placeholder="Marketing Professional with 5 years experience">
+            </div>
+            
+            <h3 style="margin-top: 2rem;">Their Information</h3>
+            
+            <div class="form-group">
+              <label for="theirName">Their Name</label>
+              <input type="text" id="theirName" name="theirName" placeholder="John Doe">
+            </div>
+            
+            <div class="form-group">
+              <label for="theirCompany">Their Company</label>
+              <input type="text" id="theirCompany" name="theirCompany" placeholder="Acme Corporation">
+            </div>
+            
+            <div class="form-group">
+              <label for="theirField">Their Field/Specialty</label>
+              <input type="text" id="theirField" name="theirField" placeholder="Digital Marketing">
+            </div>
+          </div>
+          
+          <div class="form-section">
+            <h3>Connection Details</h3>
+            
+            <div class="form-group">
+              <label for="connectionType">Connection Type</label>
+              <select id="connectionType" name="connectionType">
+                <option value="warm">Warm Introduction</option>
+                <option value="cold">Cold Outreach</option>
+              </select>
+            </div>
+            
+            <div class="form-group" id="warmConnectionContainer">
+              <label for="warmConnection">Connection Details</label>
+              <textarea id="warmConnection" name="warmConnection" placeholder="I received your contact information from Sarah Jones at Acme Corp, who spoke highly of your work in developing the Eastern market."></textarea>
+            </div>
+            
+            <div class="form-group" id="coldConnectionContainer" style="display: none;">
+              <label for="coldConnection">How You Found Them</label>
+              <textarea id="coldConnection" name="coldConnection" placeholder="I discovered your profile on LinkedIn and was particularly impressed by your article on marketing automation strategies."></textarea>
+            </div>
+            
+            <h3 style="margin-top: 2rem;">Request Details</h3>
+            
+            <div class="form-group">
+              <label for="specificInterest">Specific Interest/Topic</label>
+              <textarea id="specificInterest" name="specificInterest" placeholder="I'm particularly interested in your experience with content marketing strategies for B2B companies, especially how you've integrated video marketing into your campaigns."></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="availableTimes">Available Times</label>
+              <textarea id="availableTimes" name="availableTimes" placeholder="• Tuesday: 9am-11am
+• Wednesday: 2pm-5pm
+• Friday: Any time"></textarea>
+            </div>
+            
+            <div class="form-group">
+              <label for="emailType">Email Type</label>
+              <select id="emailType" name="emailType">
+                <option value="initial">Initial Request</option>
+                <option value="followup">Follow-Up</option>
+                <option value="thankyou">Thank You</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="email-preview">
+            <div class="email-preview-header">
+              <h3>Generated Email</h3>
+              <button type="button" id="copyButton" class="action-button">Copy to Clipboard</button>
+            </div>
+            <div id="emailPreview" class="email-preview-content">Complete the form and click "Generate Email" to see your personalized template here.</div>
+            
+            <div class="tips-box">
+              <h4>Pro Tips</h4>
+              <ul>
+                <li>Personalize further by referencing specific work they've done</li>
+                <li>Keep your email concise - aim for 200-250 words maximum</li>
+                <li>Follow up if you don't hear back within 3-5 business days</li>
+                <li>Be flexible with meeting options (in-person, virtual, phone)</li>
+              </ul>
+            </div>
+            
+            <div class="action-bar">
+              <div class="tips">Need more help? Check out our <a href="../content/module-4/index.html">Making Contact</a> guide.</div>
+              <div class="action-buttons">
+                <button type="button" id="resetButton" class="secondary-button">Reset Form</button>
+                <button type="button" id="generateButton" class="primary-button">Generate Email</button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </main>
+  
+  <div id="copyNotification" class="copy-notification">Email copied to clipboard!</div>
+  
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2025 The Power of Informational Interviews by Graham Wahlberg</p>
+      <div class="footer-separator"></div>
+      <p>From a book I wrote 10 years ago, now transformed into an interactive guide.</p>
+    </div>
+  </footer>
+
+  <script src="../scripts/main.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Connection type toggle
+      const connectionType = document.getElementById('connectionType');
+      const warmConnectionContainer = document.getElementById('warmConnectionContainer');
+      const coldConnectionContainer = document.getElementById('coldConnectionContainer');
+      
+      connectionType.addEventListener('change', function() {
+        if (this.value === 'warm') {
+          warmConnectionContainer.style.display = 'block';
+          coldConnectionContainer.style.display = 'none';
+        } else {
+          warmConnectionContainer.style.display = 'none';
+          coldConnectionContainer.style.display = 'block';
+        }
+      });
+      
+      // Generate email
+      const generateButton = document.getElementById('generateButton');
+      const emailPreview = document.getElementById('emailPreview');
+      
+      generateButton.addEventListener('click', function() {
+        const formData = {
+          yourName: document.getElementById('yourName').value || 'Your Name',
+          yourIdentity: document.getElementById('yourIdentity').value || 'Your Professional Identity',
+          theirName: document.getElementById('theirName').value || 'Their Name',
+          theirCompany: document.getElementById('theirCompany').value || 'Their Company',
+          theirField: document.getElementById('theirField').value || 'Their Field',
+          connectionType: document.getElementById('connectionType').value,
+          warmConnection: document.getElementById('warmConnection').value,
+          coldConnection: document.getElementById('coldConnection').value,
+          specificInterest: document.getElementById('specificInterest').value || 'your work in this field',
+          availableTimes: document.getElementById('availableTimes').value || '• Next week: Monday-Friday, 9am-5pm',
+          emailType: document.getElementById('emailType').value
+        };
+        
+        let emailContent = generateEmailContent(formData);
+        emailPreview.textContent = emailContent;
+      });
+      
+      // Copy to clipboard
+      const copyButton = document.getElementById('copyButton');
+      const copyNotification = document.getElementById('copyNotification');
+      
+      copyButton.addEventListener('click', function() {
+        const textToCopy = emailPreview.textContent;
+        navigator.clipboard.writeText(textToCopy).then(function() {
+          copyNotification.classList.add('visible');
+          setTimeout(function() {
+            copyNotification.classList.remove('visible');
+          }, 2000);
+        }, function() {
+          alert('Failed to copy. Please try again.');
+        });
+      });
+      
+      // Reset form
+      const resetButton = document.getElementById('resetButton');
+      
+      resetButton.addEventListener('click', function() {
+        document.getElementById('email-form').reset();
+        emailPreview.textContent = 'Complete the form and click "Generate Email" to see your personalized template here.';
+        warmConnectionContainer.style.display = 'block';
+        coldConnectionContainer.style.display = 'none';
+      });
+      
+      // Generate email content based on form data and email type
+      function generateEmailContent(data) {
+        let subject = '';
+        let body = '';
+        
+        if (data.emailType === 'initial') {
+          subject = `Informational Interview Request: ${data.yourIdentity} interested in ${data.theirField}`;
+          
+          body = `Subject: ${subject}\n\n`;
+          body += `Hello ${data.theirName},\n\n`;
+          body += `I am a ${data.yourIdentity} and I would like to request an informational interview with you to discuss your insights and perspective on ${data.theirField}.\n\n`;
+          
+          if (data.connectionType === 'warm') {
+            body += `${data.warmConnection}\n\n`;
+          } else {
+            body += `${data.coldConnection}\n\n`;
+          }
+          
+          body += `I'm particularly interested in learning about ${data.specificInterest} and would value your perspective given your experience at ${data.theirCompany}.\n\n`;
+          body += `I'm available at your convenience during these times:\n${data.availableTimes}\n\n`;
+          body += `I understand you're busy, and even 20-30 minutes would be greatly appreciated. Would any of these times work for you?\n\n`;
+          body += `Thank you for considering this request.\n\n`;
+          body += `Best regards,\n${data.yourName}`;
+          
+        } else if (data.emailType === 'followup') {
+          subject = `Following up: Quick conversation about ${data.theirField}`;
+          
+          body = `Subject: ${subject}\n\n`;
+          body += `Hello ${data.theirName},\n\n`;
+          body += `I wanted to follow up on my previous message about connecting for a brief informational conversation about your experience in ${data.theirField}.\n\n`;
+          body += `I understand you're busy, so even 15-20 minutes of your time would be tremendously valuable as I explore opportunities in this field.\n\n`;
+          body += `Would you be available any of these times?\n${data.availableTimes}\n\n`;
+          body += `Thank you for considering this request.\n\n`;
+          body += `Best regards,\n${data.yourName}\n\n`;
+          body += `[Previous message included below]`;
+          
+        } else if (data.emailType === 'thankyou') {
+          subject = `Thank you for our conversation about ${data.theirField}`;
+          
+          body = `Subject: ${subject}\n\n`;
+          body += `Hello ${data.theirName},\n\n`;
+          body += `Thank you for taking the time to meet with me today. I truly appreciated our conversation about ${data.theirField} and your insights on ${data.specificInterest}.\n\n`;
+          body += `Your advice about [specific point from conversation] was particularly valuable to me, and I plan to follow up on your suggestion to [action item].\n\n`;
+          body += `If you happen to think of anyone else who might be beneficial for me to connect with in this field, I would greatly appreciate an introduction.\n\n`;
+          body += `Thank you again for your time and generosity. I look forward to staying in touch.\n\n`;
+          body += `Best regards,\n${data.yourName}`;
+        }
+        
+        return body;
+      }
+    });
+  </script>
+</body>
+</html>
