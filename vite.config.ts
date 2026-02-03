@@ -128,6 +128,20 @@ export default defineConfig(({ mode }) => {
           '@': path.resolve(__dirname, '.'),
         }
       },
-      plugins: [generateManifests()]
+      plugins: [generateManifests()],
+      build: {
+        rollupOptions: {
+          input: {
+            main: path.resolve(__dirname, 'index.html'),
+            art: path.resolve(__dirname, 'art.html'),
+            blog: path.resolve(__dirname, 'blog.html'),
+            businessIdeas: path.resolve(__dirname, 'business-ideas.html'),
+            contact: path.resolve(__dirname, 'contact.html'),
+            links: path.resolve(__dirname, 'links.html'),
+            now: path.resolve(__dirname, 'now.html'),
+            projects: path.resolve(__dirname, 'projects.html'),
+          }
+        }
+      }
     };
 });
