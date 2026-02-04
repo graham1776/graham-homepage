@@ -7,7 +7,7 @@ function generateManifests() {
     name: 'generate-manifests',
     buildStart() {
       // Generate projects manifest
-      const projectsDir = path.resolve(__dirname, 'content/projects');
+      const projectsDir = path.resolve(__dirname, 'public/content/projects');
       const projects = [];
 
       if (fs.existsSync(projectsDir)) {
@@ -62,7 +62,7 @@ function generateManifests() {
       }
 
       // Generate art manifest
-      const artDir = path.resolve(__dirname, 'content/art');
+      const artDir = path.resolve(__dirname, 'public/content/art');
       const artPieces = [];
 
       if (fs.existsSync(artDir)) {

@@ -410,12 +410,22 @@ async function loadArtPieces() {
     }
 }
 
+// Use Vite's glob import to bundle all art modules at build time
+const artModules = import.meta.glob('./public/content/art/*.js');
+
 async function loadArtScript(fileName: string, canvasId: string) {
     try {
-        const module = await import(`./content/art/${fileName}`);
+        const modulePath = `./public/content/art/${fileName}`;
+        const moduleLoader = artModules[modulePath];
+
+        if (!moduleLoader) {
+            throw new Error(`Art module not found: ${fileName}`);
+        }
+
+        const module = await moduleLoader() as { render?: (canvas: HTMLCanvasElement, ctx: CanvasRenderingContext2D) => void };
         const canvas = document.getElementById(canvasId) as HTMLCanvasElement;
         const ctx = canvas.getContext('2d');
-        
+
         if (canvas && ctx && module.render) {
             module.render(canvas, ctx);
         }
