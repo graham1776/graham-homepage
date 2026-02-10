@@ -563,9 +563,92 @@ a:focus, button:focus, input:focus, textarea:focus {
     .nav-links {
         gap: 0.5rem;
     }
-    
+
     .nav-links a {
         padding: 0.4rem 0.8rem;
         font-size: 0.85rem;
     }
+}
+
+/* Resume Page */
+.resume-entry {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid #007bff;
+}
+
+.resume-entry h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.resume-meta {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+.resume-entry ul {
+    margin-top: 0.5rem;
+}
+
+/* Start Here Section */
+.start-here-section {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 1.5rem;
+}
+
+.start-here-section h3 {
+    margin-bottom: 1rem;
+    font-size: 1.2rem;
+    color: #333;
+}
+
+.start-here-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+}
+
+.start-here-card {
+    display: block;
+    padding: 1.25rem;
+    background: #fff;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    text-decoration: none;
+    color: #333;
+    transition: all 0.2s ease;
+}
+
+.start-here-card:hover {
+    background-color: #007bff;
+    color: #fff;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
+    text-decoration: none;
+}
+
+.start-here-card:hover span {
+    color: rgba(255, 255, 255, 0.9);
+}
+
+.start-here-card strong {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+    color: #007bff;
+}
+
+.start-here-card:hover strong {
+    color: #fff;
+}
+
+.start-here-card span {
+    font-size: 0.9rem;
+    color: #666;
 }

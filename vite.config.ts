@@ -140,6 +140,7 @@ export default defineConfig(({ mode }) => {
             links: path.resolve(__dirname, 'links.html'),
             now: path.resolve(__dirname, 'now.html'),
             projects: path.resolve(__dirname, 'projects.html'),
+            resume: path.resolve(__dirname, 'resume.html'),
           }
         }
       }
