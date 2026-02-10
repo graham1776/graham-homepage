@@ -134,6 +134,26 @@ main {
     margin-bottom: 2.5rem;
 }
 
+.hero-inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.hero-headshot {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top;
+    flex-shrink: 0;
+    border: 3px solid #e0e0e0;
+}
+
+.hero-text {
+    flex: 1;
+}
+
 #hero h2 {
     font-size: 2.5rem;
     margin-bottom: 0.5rem;
@@ -386,6 +406,14 @@ footer p {
     #hero {
         padding: 1.5rem 0;
         text-align: center;
+    }
+    .hero-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .hero-headshot {
+        width: 130px;
+        height: 130px;
     }
     #hero h2 {
         font-size: 2rem;
