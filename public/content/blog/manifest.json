@@ -1,23 +1,5 @@
 [
   {
-    "fileName": "2024-08-01-my-first-post.md",
-    "title": "My First Journey into Blogging",
-    "date": "2024-08-01",
-    "snippet": "Exploring the reasons behind starting this blog and what to expect in future posts. A quick dive into the setup and my aspirations for this space."
-  },
-  {
-    "fileName": "2024-08-05-cool-css-trick.md",
-    "title": "A Cool CSS Trick I Learned for Dynamic Layouts",
-    "date": "2024-08-05",
-    "snippet": "Discovered a neat way to achieve a common UI pattern with modern CSS Grid and Flexbox. Here's how it works and why it's useful for responsive design."
-  },
-  {
-    "fileName": "2024-08-10-thoughts-on-static-sites.md",
-    "title": "Why I Chose a Static Site Generator for My Portfolio",
-    "date": "2024-08-10",
-    "snippet": "Delving into the benefits of static sites: speed, security, and simplicity. My experience moving away from traditional CMS."
-  },
-  {
     "fileName": "2023-12-18-glimpse-of-the-kingdom.md",
     "title": "Glimpse of the Kingdom",
     "date": "2023-12-18",

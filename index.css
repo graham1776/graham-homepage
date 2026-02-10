@@ -563,9 +563,34 @@ a:focus, button:focus, input:focus, textarea:focus {
     .nav-links {
         gap: 0.5rem;
     }
-    
+
     .nav-links a {
         padding: 0.4rem 0.8rem;
         font-size: 0.85rem;
     }
+}
+
+/* Resume Page */
+.resume-entry {
+    margin-bottom: 1.5rem;
+    padding-left: 1rem;
+    border-left: 3px solid #007bff;
+}
+
+.resume-entry h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0.25rem;
+}
+
+.resume-meta {
+    font-size: 0.9rem;
+    color: #666;
+    font-style: italic;
+    margin-bottom: 0.5rem;
+}
+
+.resume-entry ul {
+    margin-top: 0.5rem;
 }
