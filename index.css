@@ -87,25 +87,22 @@ body {
 
 #projects-submenu {
     list-style: none;
-    padding-left: 1rem; /* Indent submenu items */
+    padding-left: 1.5rem; /* Indent submenu items */
     margin-top: 0.5rem;
-   /* max-height: 0; For smooth transition - not fully supported with hidden */
     overflow: hidden;
-   /* transition: max-height 0.3s ease-out; */ /* Transitions don't work well with 'hidden' attribute */
+    border-left: 2px solid #ddd;
 }
 
-/* #projects-submenu:not([hidden]) {
-   max-height: 500px; /* Adjust as needed, or use JS to set height for transition * /
-} */
-
-
 #projects-submenu li {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.25rem;
 }
 
 #projects-submenu li a {
-    font-size: 0.9rem; /* Slightly smaller for submenu */
+    font-size: 0.8rem; /* Smaller for submenu */
     font-weight: 400;
+    font-family: 'Courier New', Courier, monospace;
+    color: #666;
+    padding: 0.15rem 0;
 }
 
 
@@ -421,11 +418,13 @@ footer p {
         text-align: center;
     }
     #projects-submenu {
-        padding-left: 0; /* Reset indent for mobile */
+        padding-left: 1rem; /* Reduced indent for mobile */
         text-align: center;
+        border-left: none;
     }
     #projects-submenu li a {
         display: inline-block; /* Allow centering text */
+        font-size: 0.75rem;
     }
 
 
