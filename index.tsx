@@ -327,7 +327,9 @@ async function loadBlogPosts() {
             try {
                 const mdResponse = await fetch(`/content/blog/${post.fileName}`);
                 if (mdResponse.ok) {
-                    const markdown = await mdResponse.text();
+                    let markdown = await mdResponse.text();
+                    // Strip the first heading line since we already render the title
+                    markdown = markdown.replace(/^#\s+.*\n+/, '');
                     postContentHtml = markdownToHtml(markdown);
                 } else {
                     postContentHtml = `<p>${post.snippet}</p>`;
