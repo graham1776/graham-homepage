@@ -185,7 +185,7 @@ async function loadProjects() {
     }
 
     try {
-        const response = await fetch('content/projects/manifest.json');
+        const response = await fetch('/content/projects/manifest.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status} loading project manifest`);
         }
@@ -212,7 +212,7 @@ async function loadProjects() {
         }
 
         projects.forEach(project => {
-            const projectUrl = `content/projects/${project.folderName}/${project.entryPoint || 'index.html'}`;
+            const projectUrl = `/content/projects/${project.folderName}/${project.entryPoint || 'index.html'}`;
 
             // Populate project grid in the main content (only if projectGrid exists on the page)
             if (projectGrid) {
@@ -221,7 +221,7 @@ async function loadProjects() {
 
                 let thumbnailHtml = '';
                 if (project.thumbnail) {
-                    const thumbnailUrl = `content/projects/${project.folderName}/${project.thumbnail}`;
+                    const thumbnailUrl = `/content/projects/${project.folderName}/${project.thumbnail}`;
                     thumbnailHtml = `<img src="${thumbnailUrl}" alt="${project.title} thumbnail" class="project-thumbnail">`;
                 }
 
@@ -283,17 +283,16 @@ function setupProjectsToggle() {
 }
 
 
-async function loadBlogSummaries() {
+async function loadBlogPosts() {
     const container = document.getElementById('blog-posts-container');
     if (!container) {
-        // Blog container doesn't exist on this page, so silently return.
         return;
     }
 
     const loadingElement = container.querySelector('.loading-message');
 
     try {
-        const response = await fetch('content/blog/manifest.json');
+        const response = await fetch('/content/blog/manifest.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status} for blog manifest`);
         }
@@ -307,38 +306,48 @@ async function loadBlogSummaries() {
             container.innerHTML = '<p>No blog posts yet. Check back soon!</p>';
             return;
         }
-        
+
         // Sort posts by date, newest first
         posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
 
-
-        posts.forEach(post => {
+        for (const post of posts) {
             const postElement = document.createElement('article');
-            postElement.className = 'blog-post-summary';
+            postElement.className = 'blog-post-full';
 
             const postDate = new Date(post.date);
             const formattedDate = postDate.toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric',
-                timeZone: 'UTC' // Ensure consistent date interpretation
+                timeZone: 'UTC'
             });
 
-            // For now, "Read More" links to #. Later, this would link to a full post page.
-            const postLink = '#'; // Placeholder until full blog post viewing is implemented
-
+            // Fetch the full markdown content
+            let postContentHtml = '';
+            try {
+                const mdResponse = await fetch(`/content/blog/${post.fileName}`);
+                if (mdResponse.ok) {
+                    let markdown = await mdResponse.text();
+                    // Strip the first heading line since we already render the title
+                    markdown = markdown.replace(/^#\s+.*\n+/, '');
+                    postContentHtml = markdownToHtml(markdown);
+                } else {
+                    postContentHtml = `<p>${post.snippet}</p>`;
+                }
+            } catch {
+                postContentHtml = `<p>${post.snippet}</p>`;
+            }
 
             postElement.innerHTML = `
                 <h3>${post.title}</h3>
                 <p class="post-meta">Published on <time datetime="${post.date}">${formattedDate}</time></p>
-                <p>${post.snippet}</p>
-                <a href="${postLink}" class="btn-read-more" aria-label="Read more about ${post.title}">Read More</a>
+                <div class="blog-post-content">${postContentHtml}</div>
             `;
             container.appendChild(postElement);
-        });
+        }
 
     } catch (error) {
-        console.error('Failed to load blog summaries:', error);
+        console.error('Failed to load blog posts:', error);
         if (loadingElement) {
             loadingElement.remove();
         }
@@ -361,7 +370,7 @@ async function loadArtPieces() {
     const loadingElement = artGrid.querySelector('.loading-message');
 
     try {
-        const response = await fetch('content/art/manifest.json');
+        const response = await fetch('/content/art/manifest.json');
         if (!response.ok) {
             throw new Error(`HTTP error! status: ${response.status} for art manifest`);
         }
@@ -519,11 +528,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Page-specific content loading based on element existence
     if (document.getElementById('about-content')) {
-        loadMarkdownContent('content/about.md', 'about-content');
+        loadMarkdownContent('/content/about.md', 'about-content');
     }
 
     if (document.getElementById('blog-posts-container')) {
-        loadBlogSummaries();
+        loadBlogPosts();
     }
 
     if (document.querySelector('.art-grid')) {
