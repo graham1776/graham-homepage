@@ -2,38 +2,44 @@
 
 ## Project Overview
 
-Personal portfolio and blog website for Graham Wahlberg. A static multi-page site built with **Vite + vanilla TypeScript** — no framework (React, Vue, etc.). All DOM manipulation is done with native browser APIs.
+Personal portfolio and blog website for Graham Wahlberg, live at **grahamwahlberg.com**. A static multi-page site built with **Vite + vanilla TypeScript** — no framework (React, Vue, etc.). All DOM manipulation is done with native browser APIs.
 
 ## Tech Stack
 
 - **Build tool:** Vite 6.2
-- **Language:** TypeScript 5.7 (strict mode, JSX enabled via `react-jsx`)
+- **Language:** TypeScript 5.7 (strict mode)
 - **Target:** ES2020, ESM modules
 - **Styling:** Single global CSS file (`index.css`) — no preprocessor or CSS-in-JS
-- **Deployment:** Static site hosted on Vercel
+- **Deployment:** Vercel (zero-config Vite build; redirects in `vercel.json`), deploys on push to `main`
 - **Dependencies:** Zero production dependencies; only devDependencies (vite, typescript, @types/node)
 
 ## Repository Structure
 
 ```
-├── index.html              # Home page entry
-├── art.html                # Art gallery page
-├── blog.html               # Blog listing page
-├── projects.html           # Projects showcase
-├── business-ideas.html     # Business ideas page
-├── contact.html            # Contact page
-├── links.html              # Curated links page
+├── index.html              # Home page (hero, Start Here, About)
 ├── now.html                # "Now" page
-├── index.tsx               # Main application logic (all pages)
+├── projects.html           # Projects showcase
+├── art.html                # Generative art gallery
+├── business-ideas.html     # Business ideas catalog (static)
+├── blog.html               # Blog (full posts, newest first)
+├── resume.html             # Resume (static)
+├── links.html              # Curated links (static)
+├── contact.html            # Contact page
+├── index.tsx               # Main application logic (shared by all pages)
 ├── index.css               # Global stylesheet (all pages)
-├── vite.config.ts          # Vite config with multi-page build + manifest plugin
+├── vite.config.ts          # Multi-page build + manifest-generation plugin
+├── vercel.json             # 301 redirects from old WordPress URLs + PDF fallback
 ├── tsconfig.json           # TypeScript configuration
-├── metadata.json           # Site metadata
-└── public/content/         # Dynamic content loaded at runtime
-    ├── about.md            # About page markdown
-    ├── art/                # Generative art modules (*.js)
-    ├── blog/               # Blog posts (*.md) + manifest.json
-    └── projects/           # Project directories + manifest.json
+├── TODO.md                 # Running task list / roadmap
+└── public/
+    ├── robots.txt
+    ├── sitemap.xml         # Static; update when adding/removing pages
+    └── content/            # Dynamic content loaded at runtime
+        ├── about.md        # About section markdown (rendered on home page)
+        ├── headshot.jpeg
+        ├── art/            # Generative art modules (*.js) + auto-generated manifest.json
+        ├── blog/           # Blog posts (*.md) + hand-maintained manifest.json
+        └── projects/       # Self-contained project sub-sites + auto-generated manifest.json
 ```
 
 ## Commands
@@ -45,67 +51,65 @@ npm run build        # Production build (output: dist/)
 npm run preview      # Preview production build locally
 ```
 
-There are no test, lint, or format commands configured.
+There are no test, lint, or format commands. Note: `npm run build` does **not** type-check (esbuild strips types); run `npx tsc --noEmit` to check types.
 
 ## Architecture & Key Patterns
 
 ### Multi-Page Build
 
-Vite is configured with 8 HTML entry points (`vite.config.ts`). Each HTML file is a separate page sharing the same `index.tsx` and `index.css`. All pages are bundled independently during production build.
+Vite is configured with **9 HTML entry points** (`vite.config.ts` → `rollupOptions.input`). Each HTML file is a separate page sharing the same `index.tsx` and `index.css`. When adding a page, add it to the input map, the sidebar nav in **every** HTML file, and `public/sitemap.xml`.
 
-### Dynamic Content via Manifests
+### Drop-In Content System (the core workflow)
 
-Content (projects, blog posts, art) is loaded at runtime via `fetch()` from JSON manifests in `public/content/`. Manifests are **auto-generated during build** by a custom Vite plugin (`generateManifests` in `vite.config.ts`).
+Content is loaded at runtime via `fetch()` from JSON manifests in `public/content/`. Projects and art manifests are **auto-generated at build time** by the `generateManifests` plugin in `vite.config.ts` — dropping files in the right folder is all that's required:
 
-- `public/content/projects/manifest.json` — scans project directories for `metadata.json`
-- `public/content/art/manifest.json` — scans `*.js` art module files, extracts `metadata` via regex
+- **Project** = any directory in `public/content/projects/` containing an `index.html` (also detects `app.html`/`main.html`). Optional **`project.json`** in the directory sets `title`, `description`, `thumbnail`, `entryPoint`; otherwise both are auto-derived from the folder name. Projects are fully self-contained sub-sites — their internal code does not need to follow this repo's conventions.
+- **Art piece** = any `.js` file in `public/content/art/` exporting:
+  ```js
+  export const metadata = { title: "...", description: "..." };
+  export function render(canvas, ctx) { /* Canvas 2D drawing; may use randomness */ }
+  ```
+  Art modules are bundled via `import.meta.glob('./public/content/art/*.js')` and rendered into 300×200 canvases, with a fullscreen modal (800×600) and a Regenerate button.
+- **Blog post** = a `.md` file in `public/content/blog/` **plus a manual entry** in `public/content/blog/manifest.json` (`fileName`, `title`, `date` YYYY-MM-DD, `snippet`). The blog page renders full posts, newest first; the post's first `# heading` is stripped (the manifest title is used). Each post gets an anchor id derived from its file name minus the date prefix (e.g. `blog.html#questions-to-ask-a-landlord`).
+
+Manifests for projects/art are regenerated on every build and committed — never hand-edit those two; edit `project.json` or art `metadata` instead.
 
 ### Custom Markdown Parser
 
-The project uses a **hand-written markdown-to-HTML converter** in `index.tsx` (functions `markdownToHtml` and `applyInlineMarkdown`). It supports headings (H1–H3), paragraphs, unordered lists, bold, italic, and links. No markdown library is used.
+Hand-written markdown→HTML converter in `index.tsx` (`markdownToHtml`, `applyInlineMarkdown`). Supports **only**: H1–H3, paragraphs, unordered/ordered lists, bold, italic, links. No images, code blocks, blockquotes, tables, or H4+. Keep blog posts and `about.md` within this subset (or extend the parser first).
 
-### Art Module System
+### Core TypeScript Interfaces (in `index.tsx`)
 
-Each art piece in `public/content/art/` is a standalone `.js` file that exports:
-```js
-export const metadata = { title: "...", description: "..." };
-export function render(canvas, ctx) { /* Canvas 2D drawing */ }
-```
-Art modules are bundled via `import.meta.glob('./public/content/art/*.js')` and rendered into canvas elements. A modal system allows fullscreen viewing with a regenerate button.
-
-### Core TypeScript Interfaces
-
-Defined in `index.tsx`:
 - `Project` — `{ folderName, title, description, thumbnail?, entryPoint? }`
-- `BlogManifestEntry` — `{ fileName, title, date (YYYY-MM-DD), snippet }`
+- `BlogManifestEntry` — `{ fileName, title, date, snippet }`
 - `ArtPiece` — `{ fileName, title, description }`
 
-## Code Conventions
+### SEO / Legacy URLs
 
-- **No framework abstractions** — use `document.getElementById`, `innerHTML`, `addEventListener`, etc.
-- **Single CSS file** with BEM-inspired class naming (`.project-card`, `.blog-post-summary`, `.art-item`)
-- **CSS Grid** for content layouts (`.project-grid`, `.art-grid`), **Flexbox** for nav and modals
-- **Responsive breakpoints:** 800px (major layout shift — sidebar to top nav), 768px (minor adjustments)
-- **Accessibility:** ARIA attributes, `.sr-only` class, focus styles, `aria-live` regions for dynamic content
-- **Semantic HTML** with appropriate heading hierarchy
-- **No unused variables/parameters** — enforced by `tsconfig.json` strict settings
+`vercel.json` 301-redirects the old WordPress site's URLs (`/informational_interviews/`, `/about/`, `/blog/`, `/contact/`, `/feed/`, and `/YYYY/MM/DD/slug` permalinks) to their new homes. Don't remove these. `public/sitemap.xml` is static — keep it in sync with the entry points.
 
-## Environment Variables
+## Style Guidelines
 
-Set in `.env.local` (not committed):
-- `GEMINI_API_KEY` — Gemini API key (injected via Vite's `loadEnv`)
-- `API_KEY` — General API key
+### Visual design (see `index.css`)
 
-## Adding Content
+- **Typography:** system sans stack `'Segoe UI', Tahoma, Geneva, Verdana, sans-serif` for everything, with `'Courier New', Courier, monospace` as the accent font (taglines, sidebar project submenu). Don't introduce webfonts — zero-dependency is the point.
+- **Palette:** body text `#333` (secondary `#444`/`#555`, muted `#666`/`#777`); links and primary buttons `#007bff` (hover `#0056b3`); page background `#fff`, sidebar `#f5f5f5`, light panels `#f8f9fa`; footer `#333` with `#f4f4f4` text; errors `#d9534f`. Stay in this palette; no CSS variables are defined — use the literal values like the rest of the file.
+- **Layout:** left sidebar nav (collapses to top nav ≤800px); **CSS Grid** for content grids (`.project-grid`, `.art-grid`), **Flexbox** for nav and modals. Breakpoints: **800px** (major — sidebar→top nav) and **768px** (minor adjustments).
+- **Class naming:** BEM-inspired, lowercase-hyphenated (`.project-card`, `.blog-post-full`, `.art-item`, `.btn-view-project`). New styles go in `index.css` grouped near related rules — no inline styles except trivial dynamic ones set from TS.
 
-### New Blog Post
-1. Create a markdown file in `public/content/blog/`
-2. Add an entry to `public/content/blog/manifest.json` with `fileName`, `title`, `date` (YYYY-MM-DD), and `snippet`
+### Code style
 
-### New Art Piece
-1. Create a `.js` file in `public/content/art/` exporting `metadata` and `render(canvas, ctx)`
-2. The manifest is auto-generated during build — no manual entry needed
+- **No framework abstractions** — `document.getElementById`, `innerHTML` templates, `addEventListener`. Feature functions are self-guarding: they look up their root element and silently return if it's not on the current page, so `index.tsx` can run on every page.
+- Graceful degradation on fetch failure: remove `.loading-message`, insert a `<p class="error-message">`.
+- Semantic HTML with correct heading hierarchy; ARIA attributes, `.sr-only`, and `aria-live` regions for dynamic content. External links get `target="_blank" rel="noopener noreferrer"`.
+- TypeScript strict mode with no unused locals/parameters is enforced by `tsconfig.json`.
 
-### New Project
-1. Create a directory in `public/content/projects/` with a `metadata.json` containing `title`, `description`, and optionally `thumbnail` and `entryPoint`
-2. The manifest is auto-generated during build
+### Writing voice (content)
+
+First person, plain-spoken, enthusiastic but unpolished-on-purpose (see `business-ideas.html`, `about.md`). Short paragraphs, liberal lists and links. Identity anchors that recur across pages: husband/father of 5, Christian, industrial real estate ("industrial real estate nerd"), Goodman/GNAP, informational interviews evangelist.
+
+## Deployment Notes
+
+- Pushing to `main` triggers the Vercel production deploy.
+- No environment variables are required to build or run.
+- The old WordPress cheat-sheet PDF URL (`/wp-content/uploads/2024/05/commercial-real-estate-chatgpt-cheat-sheet.pdf`) currently redirects to `/`; if the PDF is added at that exact path under `public/`, remove the redirect from `vercel.json`.

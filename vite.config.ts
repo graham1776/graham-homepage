@@ -1,6 +1,6 @@
 import path from 'path';
 import fs from 'fs';
-import { defineConfig, loadEnv } from 'vite';
+import { defineConfig } from 'vite';
 
 function generateManifests() {
   return {
@@ -31,7 +31,7 @@ function generateManifests() {
               try {
                 const config = JSON.parse(fs.readFileSync(configPath, 'utf-8'));
                 projectConfig = { ...projectConfig, ...config, folderName };
-              } catch (e) {
+              } catch (e: any) {
                 console.warn(`Invalid project.json in ${folderName}:`, e.message);
               }
             }
@@ -56,7 +56,7 @@ function generateManifests() {
           } catch (e) {
             console.warn('Could not write projects manifest.json (permission denied). Using existing manifest.');
           }
-        } catch (e) {
+        } catch (e: any) {
           console.warn('Could not scan projects directory:', e.message);
         }
       }
@@ -93,7 +93,7 @@ function generateManifests() {
                 if (titleMatch) artConfig.title = titleMatch[1];
                 if (descMatch) artConfig.description = descMatch[1];
               }
-            } catch (e) {
+            } catch (e: any) {
               console.warn(`Could not parse metadata from ${fileName}:`, e.message);
             }
 
@@ -105,10 +105,10 @@ function generateManifests() {
           try {
             fs.writeFileSync(artManifestPath, JSON.stringify(artPieces, null, 2));
             console.log(`Generated art manifest with ${artPieces.length} pieces`);
-          } catch (e) {
+          } catch (e: any) {
             console.warn('Could not write art manifest.json:', e.message);
           }
-        } catch (e) {
+        } catch (e: any) {
           console.warn('Could not scan art directory:', e.message);
         }
       }
@@ -116,13 +116,8 @@ function generateManifests() {
   };
 }
 
-export default defineConfig(({ mode }) => {
-    const env = loadEnv(mode, '.', '');
+export default defineConfig(() => {
     return {
-      define: {
-        'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
-        'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
-      },
       resolve: {
         alias: {
           '@': path.resolve(__dirname, '.'),

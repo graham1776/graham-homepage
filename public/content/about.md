@@ -13,7 +13,7 @@ This site is a collection of my work, business ideas, thoughts, and experiments 
 *   **Investment Management:** Fund Manager for Goodman's North America Industrial fund (GNAP), responsible for portfolio strategy and performance across the industrial sector nationally
 *   **Real Estate:** 15+ years of experience in portfolio management, acquisitions, and asset management in industrial real estate
 *   **Entrepreneurship:** Constantly generating and exploring new [business ideas](business-ideas.html) — over 100 and counting
-*   **Career Consulting:** Helping people get jobs through strategic networking and [informational interviews](blog.html)
+*   **Career Consulting:** Helping people get jobs through strategic networking and [informational interviews](/content/projects/Informational%20Interviews/index.html)
 *   **Building Things:** Side projects in web development and generative [art](art.html)
 
 ## Career Path
@@ -36,7 +36,7 @@ This site is a collection of my work, business ideas, thoughts, and experiments 
 
 ## Business Philosophy
 
-I believe in the power of informational interviews, strategic networking, and actionable career advice. My approach focuses on practical, personalized guidance over traditional job application methods. I wrote a whole [book on informational interviews](business-ideas.html) because I believe that strongly in them.
+I believe in the power of informational interviews, strategic networking, and actionable career advice. My approach focuses on practical, personalized guidance over traditional job application methods. I wrote a whole [book on informational interviews](/content/projects/Informational%20Interviews/index.html) because I believe that strongly in them.
 
 ## Connect With Me
 
