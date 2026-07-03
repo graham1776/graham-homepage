@@ -313,6 +313,9 @@ async function loadBlogPosts() {
         for (const post of posts) {
             const postElement = document.createElement('article');
             postElement.className = 'blog-post-full';
+            // Anchor id from the file name (e.g. "2016-04-12-questions-to-ask-a-landlord.md"
+            // -> "questions-to-ask-a-landlord") so posts are linkable as blog.html#slug
+            postElement.id = post.fileName.replace(/\.md$/, '').replace(/^\d{4}-\d{2}-\d{2}-/, '');
 
             const postDate = new Date(post.date);
             const formattedDate = postDate.toLocaleDateString('en-US', {
@@ -538,11 +541,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.querySelector('.art-grid')) {
         loadArtPieces();
     }
-    
-    // Example for if 'Now' page were to load from markdown dynamically:
-    // if (document.getElementById('now-content-dynamic')) { // Assume <div id="now-content-dynamic"> on now.html
-    //    loadMarkdownContent('content/now.md', 'now-content-dynamic');
-    // }
-
-    console.log("Personal website script loaded and initialized on:", window.location.pathname);
 });

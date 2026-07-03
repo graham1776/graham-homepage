@@ -1,26 +1,26 @@
 [
   {
     "folderName": "Family Homepage",
-    "title": "Family Homepage",
-    "description": "Project: Family Homepage",
+    "title": "Wahlberg Family Dashboard",
+    "description": "A family homepage featuring scripture, milestones, and a life-in-weeks visualization.",
     "entryPoint": "index.html"
   },
   {
     "folderName": "Informational Interviews",
-    "title": "Informational Interviews",
-    "description": "Project: Informational Interviews",
+    "title": "The Power of Informational Interviews",
+    "description": "A complete guide and interactive toolkit for landing jobs, finding mentors, and unlocking hidden opportunities through strategic informational interviews.",
     "entryPoint": "index.html"
   },
   {
     "folderName": "NICU",
-    "title": "NICU",
-    "description": "Project: NICU",
+    "title": "NICU Journey: A Guide for Parents",
+    "description": "A practical guide for parents navigating the NICU, with expert insight from experienced NICU nurses.",
     "entryPoint": "index.html"
   },
   {
     "folderName": "The Real Estate Poster",
     "title": "The Real Estate Poster",
-    "description": "Project: The Real Estate Poster",
+    "description": "A festival-lineup-style poster of the biggest names in US industrial real estate, with a downloadable poster generator.",
     "entryPoint": "index.html"
   }
 ]
