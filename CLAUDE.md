@@ -57,7 +57,7 @@ There are no test, lint, or format commands. Note: `npm run build` does **not** 
 
 ### Multi-Page Build
 
-Vite is configured with **9 HTML entry points** (`vite.config.ts` → `rollupOptions.input`). Each HTML file is a separate page sharing the same `index.tsx` and `index.css`. When adding a page, add it to the input map, the sidebar nav in **every** HTML file, and `public/sitemap.xml`.
+Vite is configured with **9 HTML entry points** (`vite.config.ts` → `rollupOptions.input`). Each HTML file is a separate page sharing the same `index.tsx` and `index.css`. When adding a page, add it to the input map, the sidebar nav in **every** HTML file, and `public/sitemap.xml`, and include the Vercel Web Analytics snippet (the two `<script>` tags before `</head>`, `/_vercel/insights/script.js`). New project sub-site pages need that snippet too, or their traffic isn't counted.
 
 ### Drop-In Content System (the core workflow)
 

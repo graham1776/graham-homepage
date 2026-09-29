@@ -21,7 +21,13 @@ Running task list for grahamwahlberg.com. Check items off as they land.
 - [ ] In WordPress.com (Domains → DNS records): set `A @ → 76.76.21.21` and `CNAME www → cname.vercel-dns.com` (Vercel's Domains screen shows the exact records it wants — follow those if they differ).
 - [ ] After DNS propagates: verify `https://grahamwahlberg.com` serves the new site with a valid certificate, and spot-check the redirects (`/informational_interviews/`, `/about/`, `/blog/`).
 - [ ] Google Search Console: add/verify the domain property and submit `https://grahamwahlberg.com/sitemap.xml`.
+- [ ] **Before cancelling WordPress:** export Jetpack stats CSVs (Stats → Traffic → Years; Posts & Pages, Referrers, Countries, Search Terms, Clicks) for 2016 onward. Downgrade to the free plan rather than deleting the site so the stats history stays viewable.
 - [ ] Cancel the WordPress.com plan once everything checks out (keep the domain registration!).
+
+## Analytics
+
+- [x] Vercel Web Analytics snippet on all pages (main pages + project sub-sites)
+- [ ] Enable Web Analytics in the Vercel dashboard (project → Analytics) if not already on
 
 ## Nice-to-haves (post-launch)
 
