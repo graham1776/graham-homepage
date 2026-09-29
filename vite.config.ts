@@ -116,6 +116,28 @@ function generateManifests() {
   };
 }
 
+// Mirror vercel.json's rewrites/redirects in `npm run dev` and `npm run preview`, so /blog/<slug>
+// and /projects/<folder>/ work locally the same way they do in production.
+function cleanUrlRewrites() {
+  const middleware = (req: any, res: any, next: () => void) => {
+    const url: string = req.url || '';
+    if (url.startsWith('/content/projects/') && req.headers['sec-fetch-dest'] === 'document') {
+      res.statusCode = 307;
+      res.setHeader('Location', url.replace(/^\/content/, ''));
+      res.end();
+      return;
+    }
+    if (/^\/blog\/[^/?#]+\/?(\?.*)?$/.test(url)) req.url = '/post.html';
+    else if (url.startsWith('/projects/')) req.url = '/project.html';
+    next();
+  };
+  return {
+    name: 'clean-url-rewrites',
+    configureServer(server: any) { server.middlewares.use(middleware); },
+    configurePreviewServer(server: any) { server.middlewares.use(middleware); },
+  };
+}
+
 export default defineConfig(() => {
     return {
       resolve: {
@@ -123,7 +145,7 @@ export default defineConfig(() => {
           '@': path.resolve(__dirname, '.'),
         }
       },
-      plugins: [generateManifests()],
+      plugins: [generateManifests(), cleanUrlRewrites()],
       build: {
         rollupOptions: {
           input: {
@@ -134,6 +156,8 @@ export default defineConfig(() => {
             contact: path.resolve(__dirname, 'contact.html'),
             links: path.resolve(__dirname, 'links.html'),
             now: path.resolve(__dirname, 'now.html'),
+            post: path.resolve(__dirname, 'post.html'),
+            project: path.resolve(__dirname, 'project.html'),
             projects: path.resolve(__dirname, 'projects.html'),
             resume: path.resolve(__dirname, 'resume.html'),
           }

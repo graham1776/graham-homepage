@@ -3,12 +3,12 @@
   "redirects": [
     {
       "source": "/informational_interviews",
-      "destination": "/content/projects/Informational%20Interviews/index.html",
+      "destination": "/projects/Informational%20Interviews/",
       "permanent": true
     },
     {
       "source": "/informational-interviews",
-      "destination": "/content/projects/Informational%20Interviews/index.html",
+      "destination": "/projects/Informational%20Interviews/",
       "permanent": true
     },
     {
@@ -37,9 +37,36 @@
       "permanent": false
     },
     {
+      "source": "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/:slug",
+      "destination": "/blog/:slug",
+      "permanent": true
+    },
+    {
       "source": "/:year(\\d{4})/:month(\\d{2})/:day(\\d{2})/:slug*",
       "destination": "/blog.html",
       "permanent": true
+    },
+    {
+      "source": "/content/projects/:path+",
+      "has": [
+        {
+          "type": "header",
+          "key": "sec-fetch-dest",
+          "value": "document"
+        }
+      ],
+      "destination": "/projects/:path+",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/blog/:slug",
+      "destination": "/post.html"
+    },
+    {
+      "source": "/projects/:path*",
+      "destination": "/project.html"
     }
   ]
 }

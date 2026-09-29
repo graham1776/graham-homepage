@@ -212,7 +212,8 @@ async function loadProjects() {
         }
 
         projects.forEach(project => {
-            const projectUrl = `/content/projects/${project.folderName}/${project.entryPoint || 'index.html'}`;
+            // Projects open inside the site shell (project.html, served at /projects/<folder>/) so the sidebar stays put
+            const projectUrl = `/projects/${encodeURIComponent(project.folderName)}/`;
 
             // Populate project grid in the main content (only if projectGrid exists on the page)
             if (projectGrid) {
@@ -229,7 +230,7 @@ async function loadProjects() {
                     ${thumbnailHtml}
                     <h3>${project.title}</h3>
                     <p>${project.description}</p>
-                    <a href="${projectUrl}" class="btn-view-project" aria-label="View project: ${project.title}" target="_blank" rel="noopener noreferrer">View Project</a>
+                    <a href="${projectUrl}" class="btn-view-project" aria-label="View project: ${project.title}">View Project</a>
                 `;
                 projectGrid.appendChild(card);
             }
@@ -240,8 +241,6 @@ async function loadProjects() {
                 const link = document.createElement('a');
                 link.href = projectUrl;
                 link.textContent = project.title;
-                link.target = '_blank'; // Open project in new tab
-                link.rel = 'noopener noreferrer';
                 listItem.appendChild(link);
                 projectsSubmenu.appendChild(listItem);
             }
@@ -283,6 +282,51 @@ function setupProjectsToggle() {
 }
 
 
+/** "2016-04-12-questions-to-ask-a-landlord.md" -> "questions-to-ask-a-landlord" (the post's URL slug). */
+function slugFromFileName(fileName: string): string {
+    return fileName.replace(/\.md$/, '').replace(/^\d{4}-\d{2}-\d{2}-/, '');
+}
+
+function formatPostDate(date: string): string {
+    return new Date(date).toLocaleDateString('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        timeZone: 'UTC'
+    });
+}
+
+/** Fetches the blog manifest, newest post first. */
+async function fetchBlogManifest(): Promise<BlogManifestEntry[]> {
+    const response = await fetch('/content/blog/manifest.json');
+    if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status} for blog manifest`);
+    }
+    const posts: BlogManifestEntry[] = await response.json();
+    return posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+}
+
+/** Renders one summary card per post (title, date, snippet) linking to /blog/<slug>. */
+function renderBlogList(container: HTMLElement, posts: BlogManifestEntry[]) {
+    if (posts.length === 0) {
+        container.insertAdjacentHTML('beforeend', '<p>No blog posts yet. Check back soon!</p>');
+        return;
+    }
+
+    for (const post of posts) {
+        const postUrl = `/blog/${slugFromFileName(post.fileName)}`;
+        const postElement = document.createElement('article');
+        postElement.className = 'blog-post-summary';
+        postElement.innerHTML = `
+            <h3><a href="${postUrl}">${post.title}</a></h3>
+            <p class="post-meta">Published on <time datetime="${post.date}">${formatPostDate(post.date)}</time></p>
+            <p>${post.snippet}</p>
+            <a href="${postUrl}" class="btn-read-more" aria-label="Read post: ${post.title}">Read post</a>
+        `;
+        container.appendChild(postElement);
+    }
+}
+
 async function loadBlogPosts() {
     const container = document.getElementById('blog-posts-container');
     if (!container) {
@@ -292,62 +336,19 @@ async function loadBlogPosts() {
     const loadingElement = container.querySelector('.loading-message');
 
     try {
-        const response = await fetch('/content/blog/manifest.json');
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status} for blog manifest`);
+        const posts = await fetchBlogManifest();
+
+        // Old links pointed at blog.html#slug when every post lived on one page; send them to the post's own page.
+        const hashSlug = decodeURIComponent(window.location.hash.slice(1));
+        if (hashSlug && posts.some(post => slugFromFileName(post.fileName) === hashSlug)) {
+            window.location.replace(`/blog/${hashSlug}`);
+            return;
         }
-        const posts: BlogManifestEntry[] = await response.json();
 
         if (loadingElement) {
             loadingElement.remove();
         }
-
-        if (posts.length === 0) {
-            container.innerHTML = '<p>No blog posts yet. Check back soon!</p>';
-            return;
-        }
-
-        // Sort posts by date, newest first
-        posts.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-        for (const post of posts) {
-            const postElement = document.createElement('article');
-            postElement.className = 'blog-post-full';
-            // Anchor id from the file name (e.g. "2016-04-12-questions-to-ask-a-landlord.md"
-            // -> "questions-to-ask-a-landlord") so posts are linkable as blog.html#slug
-            postElement.id = post.fileName.replace(/\.md$/, '').replace(/^\d{4}-\d{2}-\d{2}-/, '');
-
-            const postDate = new Date(post.date);
-            const formattedDate = postDate.toLocaleDateString('en-US', {
-                year: 'numeric',
-                month: 'long',
-                day: 'numeric',
-                timeZone: 'UTC'
-            });
-
-            // Fetch the full markdown content
-            let postContentHtml = '';
-            try {
-                const mdResponse = await fetch(`/content/blog/${post.fileName}`);
-                if (mdResponse.ok) {
-                    let markdown = await mdResponse.text();
-                    // Strip the first heading line since we already render the title
-                    markdown = markdown.replace(/^#\s+.*\n+/, '');
-                    postContentHtml = markdownToHtml(markdown);
-                } else {
-                    postContentHtml = `<p>${post.snippet}</p>`;
-                }
-            } catch {
-                postContentHtml = `<p>${post.snippet}</p>`;
-            }
-
-            postElement.innerHTML = `
-                <h3>${post.title}</h3>
-                <p class="post-meta">Published on <time datetime="${post.date}">${formattedDate}</time></p>
-                <div class="blog-post-content">${postContentHtml}</div>
-            `;
-            container.appendChild(postElement);
-        }
+        renderBlogList(container, posts);
 
     } catch (error) {
         console.error('Failed to load blog posts:', error);
@@ -356,6 +357,145 @@ async function loadBlogPosts() {
         }
         container.innerHTML = '<p class="error-message">Sorry, there was an issue loading blog posts.</p>';
     }
+}
+
+/** Renders a single post on post.html, served at /blog/<slug> (see vercel.json rewrites). */
+async function loadBlogPost() {
+    const container = document.getElementById('blog-post');
+    if (!container) {
+        return;
+    }
+
+    const loadingElement = container.querySelector('.loading-message');
+    const slug = decodeURIComponent(window.location.pathname.replace(/^\/blog\//, '').replace(/\/$/, ''));
+
+    try {
+        const posts = await fetchBlogManifest();
+        const post = posts.find(entry => slugFromFileName(entry.fileName) === slug);
+
+        if (loadingElement) {
+            loadingElement.remove();
+        }
+
+        if (!post) {
+            // Unknown slug (e.g. an old WordPress permalink we don't have): show the full list instead.
+            document.title = 'Post not found - Graham Wahlberg';
+            container.insertAdjacentHTML('beforeend', `
+                <h2>Post not found</h2>
+                <p>Sorry, I couldn't find that post. Here's everything on the blog:</p>
+                <div id="blog-posts-container"></div>
+            `);
+            const list = document.getElementById('blog-posts-container');
+            if (list) {
+                renderBlogList(list, posts);
+            }
+            return;
+        }
+
+        const mdResponse = await fetch(`/content/blog/${post.fileName}`);
+        if (!mdResponse.ok) {
+            throw new Error(`HTTP error! status: ${mdResponse.status} for ${post.fileName}`);
+        }
+        // Strip the first heading line since we already render the title
+        const markdown = (await mdResponse.text()).replace(/^#\s+.*\n+/, '');
+
+        document.title = `${post.title} - Graham Wahlberg`;
+        document.querySelector('meta[name="description"]')?.setAttribute('content', post.snippet);
+
+        const postElement = document.createElement('article');
+        postElement.className = 'blog-post-full';
+        postElement.innerHTML = `
+            <h2>${post.title}</h2>
+            <p class="post-meta">Published on <time datetime="${post.date}">${formatPostDate(post.date)}</time></p>
+            <div class="blog-post-content">${markdownToHtml(markdown)}</div>
+        `;
+        container.appendChild(postElement);
+
+    } catch (error) {
+        console.error('Failed to load blog post:', error);
+        if (loadingElement) {
+            loadingElement.remove();
+        }
+        container.insertAdjacentHTML('beforeend', '<p class="error-message">Sorry, there was an issue loading this post.</p>');
+    }
+}
+
+/**
+ * Project shell (project.html, served at /projects/<folder>/<path>): keeps the site sidebar and
+ * frames the self-contained project at /content/projects/<folder>/<path>, so project sub-sites
+ * need no changes to sit inside the site.
+ */
+async function loadProjectShell() {
+    const shell = document.getElementById('project-shell');
+    if (!shell) {
+        return;
+    }
+
+    const loadingElement = shell.querySelector('.loading-message');
+    const [folderSegment = '', ...rest] = window.location.pathname.replace(/^\/projects\//, '').split('/');
+    const folderName = decodeURIComponent(folderSegment);
+    const subPath = rest.join('/');
+
+    try {
+        const response = await fetch('/content/projects/manifest.json');
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status} loading project manifest`);
+        }
+        const projects: Project[] = await response.json();
+        const project = projects.find(entry => entry.folderName === folderName);
+        if (!project) {
+            throw new Error(`Unknown project: ${folderName}`);
+        }
+
+        document.title = `${project.title} - Graham Wahlberg`;
+        if (loadingElement) {
+            loadingElement.remove();
+        }
+
+        const frame = document.createElement('iframe');
+        frame.className = 'project-frame';
+        frame.title = project.title;
+        frame.src = `/content/projects/${folderSegment}/${subPath || project.entryPoint || 'index.html'}${window.location.search}${window.location.hash}`;
+        frame.addEventListener('load', () => syncProjectFrame(frame, project.title));
+        shell.appendChild(frame);
+
+    } catch (error) {
+        console.error('Failed to load project:', error);
+        if (loadingElement) {
+            loadingElement.remove();
+        }
+        shell.innerHTML = '<p class="error-message">Sorry, couldn\'t find that project. <a href="projects.html">See all projects</a>.</p>';
+    }
+}
+
+/** After each navigation inside the frame: mirror its URL and title in the address bar, and keep links sane. */
+function syncProjectFrame(frame: HTMLIFrameElement, projectTitle: string) {
+    let frameLocation: Location;
+    let frameDocument: Document;
+    try {
+        frameLocation = frame.contentWindow!.location;
+        frameDocument = frame.contentDocument!;
+    } catch {
+        return; // Cross-origin page (shouldn't happen: off-site links are retargeted below)
+    }
+
+    if (!frameLocation.pathname.startsWith('/content/projects/')) {
+        // The project linked back into the main site: load that page at the top level, not inside the frame.
+        window.location.href = frameLocation.href;
+        return;
+    }
+
+    history.replaceState(null, '', frameLocation.pathname.replace(/^\/content/, '') + frameLocation.search + frameLocation.hash);
+    document.title = frameDocument.title ? `${frameDocument.title} - Graham Wahlberg` : `${projectTitle} - Graham Wahlberg`;
+
+    // Off-site links would break inside the frame (many sites refuse to be framed): open them in a new tab.
+    frameDocument.addEventListener('click', event => {
+        const link = (event.target as Element | null)?.closest?.('a[href]') as HTMLAnchorElement | null;
+        if (link && link.origin !== window.location.origin && !link.target) {
+            link.target = '_blank';
+            link.rel = 'noopener noreferrer';
+        }
+    });
 }
 
 interface ArtPiece {
@@ -536,6 +676,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (document.getElementById('blog-posts-container')) {
         loadBlogPosts();
+    }
+
+    if (document.getElementById('blog-post')) {
+        loadBlogPost();
+    }
+
+    if (document.getElementById('project-shell')) {
+        loadProjectShell();
     }
 
     if (document.querySelector('.art-grid')) {
