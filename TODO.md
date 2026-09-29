@@ -68,7 +68,7 @@ Done: `project.html` shell at `/projects/<folder>/` (sidebar + framed project).
 
 - [x] Per-post blog pages (each post currently renders on the single `blog.html`; individual URLs would be better for sharing/SEO than `#anchors`)
 - [ ] Extend the markdown parser (images, code blocks, blockquotes, H4+) — or swap in a tiny parser
-- [ ] The Real Estate Poster's `index.html` loads a `script.js` that was never committed (404). Find the original file or remove the reference
+- [ ] Project files that were never committed (404s): The Real Estate Poster's `styles.css` and `script.js`; NICU's `images/stories/olivia.jpg`, `ethan.jpg`, `twins.jpg`; Informational Interviews' `images/success-stories/jen.jpg`. Find the originals or remove the references
 - [ ] Project thumbnails (`project.json` supports `thumbnail`, none set yet)
 - [ ] Move art modules out of `public/` (e.g. `src/art/`) — they're currently both bundled *and* copied verbatim to `dist/`
 - [ ] RSS feed for the blog (`/feed` currently just redirects to `blog.html`)

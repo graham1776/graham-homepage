@@ -116,25 +116,62 @@ function generateManifests() {
   };
 }
 
-// Mirror vercel.json's rewrites/redirects in `npm run dev` and `npm run preview`, so /blog/<slug>
-// and /projects/<folder>/ work locally the same way they do in production.
-function cleanUrlRewrites() {
-  const middleware = (req: any, res: any, next: () => void) => {
-    const url: string = req.url || '';
-    if (url.startsWith('/content/projects/') && req.headers['sec-fetch-dest'] === 'document') {
-      res.statusCode = 307;
-      res.setHeader('Location', url.replace(/^\/content/, ''));
-      res.end();
-      return;
-    }
-    if (/^\/blog\/[^/?#]+\/?(\?.*)?$/.test(url)) req.url = '/post.html';
-    else if (url.startsWith('/projects/')) req.url = '/project.html';
-    next();
-  };
+// Clean URLs for blog posts and projects, as real files: after the build, copy the built post.html to
+// dist/blog/<slug>/index.html for every post, and the built project.html to dist/projects/<folder>/<page>
+// for every page of every project. Any static host serves these; no server rewrites are needed.
+// In `npm run dev` there is no dist/, so a small middleware does the same mapping on the fly.
+function cleanUrlPages() {
+  const toProjectShell = (url: string) => url.startsWith('/projects/');
+  const toPostPage = (url: string) => /^\/blog\/[^/?#]+\/?(\?.*)?$/.test(url);
+
   return {
-    name: 'clean-url-rewrites',
-    configureServer(server: any) { server.middlewares.use(middleware); },
-    configurePreviewServer(server: any) { server.middlewares.use(middleware); },
+    name: 'clean-url-pages',
+    configureServer(server: any) {
+      server.middlewares.use((req: any, res: any, next: () => void) => {
+        const url: string = req.url || '';
+        // Mirrors the vercel.json redirect: a raw project URL opened as a page goes to the shell.
+        if (url.startsWith('/content/projects/') && req.headers['sec-fetch-dest'] === 'document') {
+          res.statusCode = 307;
+          res.setHeader('Location', url.replace(/^\/content/, ''));
+          res.end();
+          return;
+        }
+        if (toPostPage(url)) req.url = '/post.html';
+        else if (toProjectShell(url)) req.url = '/project.html';
+        next();
+      });
+    },
+    writeBundle(options: { dir?: string }) {
+      const outDir = options.dir || path.resolve(__dirname, 'dist');
+      const postHtml = fs.readFileSync(path.join(outDir, 'post.html'), 'utf-8');
+      const projectHtml = fs.readFileSync(path.join(outDir, 'project.html'), 'utf-8');
+      const writePage = (relPath: string, html: string) => {
+        const target = path.join(outDir, relPath);
+        fs.mkdirSync(path.dirname(target), { recursive: true });
+        fs.writeFileSync(target, html);
+      };
+
+      const blogManifest = JSON.parse(fs.readFileSync(path.resolve(__dirname, 'public/content/blog/manifest.json'), 'utf-8'));
+      for (const post of blogManifest) {
+        const slug = post.fileName.replace(/\.md$/, '').replace(/^\d{4}-\d{2}-\d{2}-/, '');
+        writePage(path.join('blog', slug, 'index.html'), postHtml);
+      }
+
+      const projectsDir = path.resolve(__dirname, 'public/content/projects');
+      const htmlFilesIn = (dir: string): string[] => fs.readdirSync(dir, { withFileTypes: true }).flatMap(entry =>
+        entry.isDirectory() ? htmlFilesIn(path.join(dir, entry.name)).map(f => path.join(entry.name, f))
+          : entry.name.endsWith('.html') ? [entry.name] : []);
+      let shellCount = 0;
+      for (const folder of fs.readdirSync(projectsDir, { withFileTypes: true }).filter(d => d.isDirectory())) {
+        // index.html always, so /projects/<folder>/ resolves even when the entry point is app.html/main.html
+        const pages = new Set(['index.html', ...htmlFilesIn(path.join(projectsDir, folder.name))]);
+        for (const page of pages) {
+          writePage(path.join('projects', folder.name, page), projectHtml);
+          shellCount++;
+        }
+      }
+      console.log(`Wrote ${blogManifest.length} blog post pages and ${shellCount} project shell pages`);
+    },
   };
 }
 
@@ -145,7 +182,7 @@ export default defineConfig(() => {
           '@': path.resolve(__dirname, '.'),
         }
       },
-      plugins: [generateManifests(), cleanUrlRewrites()],
+      plugins: [generateManifests(), cleanUrlPages()],
       build: {
         rollupOptions: {
           input: {
