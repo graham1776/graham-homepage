@@ -41,10 +41,11 @@ The posts look like they were edited during the AI migration. Replace with Graha
 - [ ] Restyle the site — waiting on Graham's design thoughts
 
 ### Projects: keep the site nav around them
-- [ ] Project sub-sites (Informational Interviews, NICU, Real Estate Poster, Family Homepage) have no link back to the main site. Explore building/serving them from the projects folder while always keeping the Graham Wahlberg left sidebar menu (e.g. a shared wrapper/header injected at build time, or an iframe shell page) — at minimum, add a back-link
+Done: `project.html` shell at `/projects/<folder>/` (sidebar + framed project).
+- [x] Project sub-sites (Informational Interviews, NICU, Real Estate Poster, Family Homepage) have no link back to the main site. Explore building/serving them from the projects folder while always keeping the Graham Wahlberg left sidebar menu (e.g. a shared wrapper/header injected at build time, or an iframe shell page) — at minimum, add a back-link
 
 ### Blog: index instead of full posts
-- [ ] `blog.html` should list posts (title, date, snippet), not render every post in full. Pairs with the per-post pages item below — keep the existing `#anchor` links working (redirect or map them to the new post URLs)
+- [x] `blog.html` should list posts (title, date, snippet), not render every post in full. Pairs with the per-post pages item below — keep the existing `#anchor` links working (redirect or map them to the new post URLs)
 
 ### New menu item: Talks / Performances
 - [ ] New page (entry point, sidebar nav on every page, sitemap, analytics snippet). Newest first; confirm details for items marked ?
@@ -65,8 +66,9 @@ The posts look like they were edited during the AI migration. Replace with Graha
 
 ## Nice-to-haves (post-launch)
 
-- [ ] Per-post blog pages (each post currently renders on the single `blog.html`; individual URLs would be better for sharing/SEO than `#anchors`)
+- [x] Per-post blog pages (each post currently renders on the single `blog.html`; individual URLs would be better for sharing/SEO than `#anchors`)
 - [ ] Extend the markdown parser (images, code blocks, blockquotes, H4+) — or swap in a tiny parser
+- [ ] The Real Estate Poster's `index.html` loads a `script.js` that was never committed (404). Find the original file or remove the reference
 - [ ] Project thumbnails (`project.json` supports `thumbnail`, none set yet)
 - [ ] Move art modules out of `public/` (e.g. `src/art/`) — they're currently both bundled *and* copied verbatim to `dist/`
 - [ ] RSS feed for the blog (`/feed` currently just redirects to `blog.html`)

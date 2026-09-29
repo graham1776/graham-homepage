@@ -2,15 +2,13 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <base href="/">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Art & Experiments - Graham Wahlberg</title>
+    <title>Projects - Graham Wahlberg</title>
     <link rel="stylesheet" href="/index.css">
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
-  <!-- Vercel Web Analytics -->
-  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
-  <script defer src="/_vercel/insights/script.js"></script>
 </head>
-<body>
+<body class="project-shell-page">
     <aside id="sidebar">
         <div id="logo-sidebar">
             <h1><a href="index.html">Graham Wahlberg</a></h1>
@@ -40,19 +38,10 @@
     </aside>
 
     <div id="page-content-wrapper">
-        <main>
-            <section id="art" class="content-section">
-                <h2>Art & Experiments</h2>
-                <p>A space for creative coding experiments and small visual pieces.</p>
-                <div class="art-grid" aria-label="Collection of art projects">
-                    <p class="loading-message">Loading art...</p>
-                </div>
-            </section>
+        <main id="project-shell">
+            <p class="loading-message">Loading project...</p>
         </main>
 
-        <footer>
-            <p>&copy; <span id="current-year"></span> Graham Wahlberg. All rights reserved.</p>
-        </footer>
     </div>
 
     <script type="module" src="/index.tsx"></script>

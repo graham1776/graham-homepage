@@ -21,14 +21,16 @@ Personal portfolio and blog website for Graham Wahlberg, live at **grahamwahlber
 ├── projects.html           # Projects showcase
 ├── art.html                # Generative art gallery
 ├── business-ideas.html     # Business ideas catalog (static)
-├── blog.html               # Blog (full posts, newest first)
+├── blog.html               # Blog index (post cards, newest first)
+├── post.html               # Single blog post, served at /blog/<slug>
+├── project.html            # Project shell (sidebar + framed project), served at /projects/<folder>/
 ├── resume.html             # Resume (static)
 ├── links.html              # Curated links (static)
 ├── contact.html            # Contact page
 ├── index.tsx               # Main application logic (shared by all pages)
 ├── index.css               # Global stylesheet (all pages)
-├── vite.config.ts          # Multi-page build + manifest-generation plugin
-├── vercel.json             # 301 redirects from old WordPress URLs + PDF fallback
+├── vite.config.ts          # Multi-page build, manifest generation, dev mirror of vercel.json rewrites
+├── vercel.json             # Redirects (old WordPress URLs, raw project URLs) + clean-URL rewrites
 ├── tsconfig.json           # TypeScript configuration
 ├── TODO.md                 # Running task list / roadmap
 └── public/
@@ -57,7 +59,13 @@ There are no test, lint, or format commands. Note: `npm run build` does **not** 
 
 ### Multi-Page Build
 
-Vite is configured with **9 HTML entry points** (`vite.config.ts` → `rollupOptions.input`). Each HTML file is a separate page sharing the same `index.tsx` and `index.css`. When adding a page, add it to the input map, the sidebar nav in **every** HTML file, and `public/sitemap.xml`, and include the Vercel Web Analytics snippet (the two `<script>` tags before `</head>`, `/_vercel/insights/script.js`). New project sub-site pages need that snippet too, or their traffic isn't counted.
+Vite is configured with **11 HTML entry points** (`vite.config.ts` → `rollupOptions.input`). Each HTML file is a separate page sharing the same `index.tsx` and `index.css`. When adding a page, add it to the input map, the sidebar nav in **every** HTML file, and `public/sitemap.xml`, and include the Vercel Web Analytics snippet (the two `<script>` tags before `</head>`, `/_vercel/insights/script.js`). New project sub-site pages need that snippet too, or their traffic isn't counted. The one exception is `project.html`: it deliberately has no snippet, because the framed project page counts the view.
+
+`post.html` and `project.html` are served at clean URLs via `vercel.json` rewrites (mirrored for `npm run dev`/`preview` by the `cleanUrlRewrites` plugin in `vite.config.ts`). They use `<base href="/">` so the sidebar's relative links still resolve from nested paths.
+
+### Project Shell
+
+Projects open at `/projects/<folder>/<path>`: `project.html` keeps the site sidebar and frames `/content/projects/<folder>/<path>` in an iframe, mirroring the frame's URL and title into the address bar as the visitor navigates. Links from a project back into the main site load at the top level; off-site links open in a new tab. A raw `/content/projects/...` URL opened as a page (Google result, bookmark) is redirected to the shell by a `vercel.json` rule keyed on `Sec-Fetch-Dest: document`. That redirect is intentionally not permanent: a cached 308 would also redirect the iframe. Link to projects as `/projects/<folder>/`, never `/content/projects/...`. On mobile the shell shows only the name bar (links home), not the stacked nav.
 
 ### Drop-In Content System (the core workflow)
 
@@ -70,7 +78,7 @@ Content is loaded at runtime via `fetch()` from JSON manifests in `public/conten
   export function render(canvas, ctx) { /* Canvas 2D drawing; may use randomness */ }
   ```
   Art modules are bundled via `import.meta.glob('./public/content/art/*.js')` and rendered into 300×200 canvases, with a fullscreen modal (800×600) and a Regenerate button.
-- **Blog post** = a `.md` file in `public/content/blog/` **plus a manual entry** in `public/content/blog/manifest.json` (`fileName`, `title`, `date` YYYY-MM-DD, `snippet`). The blog page renders full posts, newest first; the post's first `# heading` is stripped (the manifest title is used). Each post gets an anchor id derived from its file name minus the date prefix (e.g. `blog.html#questions-to-ask-a-landlord`).
+- **Blog post** = a `.md` file in `public/content/blog/` **plus a manual entry** in `public/content/blog/manifest.json` (`fileName`, `title`, `date` YYYY-MM-DD, `snippet`). `blog.html` lists posts as cards (title, date, snippet), newest first. Each post has its own page at `/blog/<slug>`, where the slug is the file name minus the date prefix (e.g. `/blog/questions-to-ask-a-landlord`); the post's first `# heading` is stripped (the manifest title is used). Old `blog.html#slug` links redirect to the post page, unknown slugs show the post list, and old WordPress `/YYYY/MM/DD/slug` permalinks redirect to `/blog/slug`. Add new posts to `public/sitemap.xml` too.
 
 Manifests for projects/art are regenerated on every build and committed — never hand-edit those two; edit `project.json` or art `metadata` instead.
 
