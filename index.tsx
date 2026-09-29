@@ -42,7 +42,7 @@ function applyInlineMarkdown(text: string): string {
 
 /**
  * Basic Markdown to HTML converter.
- * Supports: H1-H3, Paragraphs, Unordered Lists, Ordered Lists,
+ * Supports: H1-H3, Paragraphs, Unordered Lists, Ordered Lists, horizontal rules (---),
  * and inline formats (bold, italic, links via applyInlineMarkdown).
  * @param md Markdown string.
  * @returns HTML string.
@@ -75,6 +75,9 @@ function markdownToHtml(md: string): string {
 
     for (let i = 0; i < lines.length; i++) {
         let line = lines[i];
+
+        // Horizontal rule
+        if (/^(-{3,}|\*{3,})\s*$/.test(line)) { flushParagraph(); closeList(); html += '<hr>\n'; continue; }
 
         // Headings
         if (line.startsWith('# ')) { flushParagraph(); closeList(); html += `<h1>${applyInlineMarkdown(line.substring(2).trim())}</h1>\n`; continue; }
@@ -203,9 +206,8 @@ async function loadProjects() {
             // Still populate submenu even if no projects, maybe with a "No projects" message or empty
              if (projectsSubmenu) {
                  const listItem = document.createElement('li');
+                 listItem.className = 'submenu-note';
                  listItem.textContent = 'No projects yet.';
-                 listItem.style.fontStyle = 'italic';
-                 listItem.style.color = '#777';
                  projectsSubmenu.appendChild(listItem);
              }
             return;
@@ -228,9 +230,9 @@ async function loadProjects() {
 
                 card.innerHTML = `
                     ${thumbnailHtml}
-                    <h3>${project.title}</h3>
+                    <h3><a href="${projectUrl}">${project.title}</a></h3>
                     <p>${project.description}</p>
-                    <a href="${projectUrl}" class="btn-view-project" aria-label="View project: ${project.title}">View Project</a>
+                    <a href="${projectUrl}" class="btn-view-project" aria-label="View project: ${project.title}">View project</a>
                 `;
                 projectGrid.appendChild(card);
             }
@@ -256,11 +258,51 @@ async function loadProjects() {
         }
          if (projectsSubmenu) { // Update submenu with error message too
             const listItem = document.createElement('li');
-            listItem.textContent = 'Error loading projects.';
-            listItem.style.color = '#d9534f';
+            listItem.className = 'submenu-note';
+            listItem.textContent = 'Projects didn\'t load. Try the Projects page.';
             projectsSubmenu.appendChild(listItem);
         }
     }
+}
+
+/**
+ * Sidebar: underline the current page (aria-current), and on phones collapse the nav behind a
+ * "Menu" text button. The button is added here so the nav stays fully visible without JS.
+ */
+function setupSidebarNav() {
+    const sidebar = document.getElementById('sidebar');
+    const nav = document.getElementById('sidebar-nav');
+    if (!sidebar || !nav) {
+        return;
+    }
+
+    const path = window.location.pathname;
+    const currentHref =
+        path === '/' || path === '/index.html' ? 'index.html'
+        : path.startsWith('/blog/') ? 'blog.html'
+        : path.startsWith('/projects/Informational%20Interviews/') || path.startsWith('/projects/Informational Interviews/') ? '/projects/Informational%20Interviews/'
+        : path.startsWith('/projects/') ? 'projects.html'
+        : path.replace(/^\//, '');
+    nav.querySelectorAll<HTMLAnchorElement>(':scope > ul > li > a').forEach(link => {
+        if (link.getAttribute('href') === currentHref) {
+            link.setAttribute('aria-current', 'page');
+        }
+    });
+
+    nav.id = nav.id || 'sidebar-nav';
+    const menuButton = document.createElement('button');
+    menuButton.type = 'button';
+    menuButton.className = 'menu-toggle';
+    menuButton.textContent = 'Menu';
+    menuButton.setAttribute('aria-expanded', 'false');
+    menuButton.setAttribute('aria-controls', nav.id);
+    menuButton.addEventListener('click', () => {
+        const isOpen = sidebar.classList.toggle('menu-open');
+        menuButton.setAttribute('aria-expanded', String(isOpen));
+        menuButton.textContent = isOpen ? 'Close' : 'Menu';
+    });
+    nav.before(menuButton);
+    sidebar.classList.add('has-menu');
 }
 
 function setupProjectsToggle() {
@@ -277,7 +319,7 @@ function setupProjectsToggle() {
         const isExpanded = toggleButton.getAttribute('aria-expanded') === 'true';
         toggleButton.setAttribute('aria-expanded', String(!isExpanded));
         submenu.hidden = isExpanded; // Toggle hidden attribute
-        expanderIcon.textContent = isExpanded ? '▼' : '▲';
+        expanderIcon.textContent = isExpanded ? '+' : '−';
     });
 }
 
@@ -288,7 +330,8 @@ function slugFromFileName(fileName: string): string {
 }
 
 function formatPostDate(date: string): string {
-    return new Date(date).toLocaleDateString('en-US', {
+    // Written out, day first: "18 December 2023"
+    return new Date(date).toLocaleDateString('en-GB', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -318,10 +361,9 @@ function renderBlogList(container: HTMLElement, posts: BlogManifestEntry[]) {
         const postElement = document.createElement('article');
         postElement.className = 'blog-post-summary';
         postElement.innerHTML = `
+            <p class="post-meta"><time datetime="${post.date}">${formatPostDate(post.date)}</time></p>
             <h3><a href="${postUrl}">${post.title}</a></h3>
-            <p class="post-meta">Published on <time datetime="${post.date}">${formatPostDate(post.date)}</time></p>
             <p>${post.snippet}</p>
-            <a href="${postUrl}" class="btn-read-more" aria-label="Read post: ${post.title}">Read post</a>
         `;
         container.appendChild(postElement);
     }
@@ -405,11 +447,22 @@ async function loadBlogPost() {
         const postElement = document.createElement('article');
         postElement.className = 'blog-post-full';
         postElement.innerHTML = `
+            <p class="post-meta post-label"><time datetime="${post.date}">${formatPostDate(post.date)}</time></p>
             <h2>${post.title}</h2>
-            <p class="post-meta">Published on <time datetime="${post.date}">${formatPostDate(post.date)}</time></p>
             <div class="blog-post-content">${markdownToHtml(markdown)}</div>
         `;
         container.appendChild(postElement);
+
+        // "Next": the next older post (posts are sorted newest first)
+        const nextPost = posts[posts.indexOf(post) + 1];
+        if (nextPost) {
+            container.insertAdjacentHTML('beforeend', `
+                <nav class="post-next" aria-label="Next post">
+                    <span class="meta">Next</span>
+                    <a href="/blog/${slugFromFileName(nextPost.fileName)}">${nextPost.title}</a>
+                </nav>
+            `);
+        }
 
     } catch (error) {
         console.error('Failed to load blog post:', error);
@@ -540,8 +593,8 @@ async function loadArtPieces() {
             artItem.innerHTML = `
                 <h3>${piece.title}</h3>
                 <p>${piece.description}</p>
-                <canvas id="${canvasId}" width="300" height="200" style="border: 1px solid #ddd; cursor: pointer;"></canvas>
-                <button class="btn-expand-art" data-filename="${piece.fileName}" data-canvas-id="${canvasId}">View Full Size</button>
+                <canvas id="${canvasId}" width="300" height="200"></canvas>
+                <button class="btn-expand-art" data-filename="${piece.fileName}" data-canvas-id="${canvasId}">View full size</button>
             `;
             
             artGrid.appendChild(artItem);
@@ -616,7 +669,7 @@ function openArtModal(fileName: string, originalCanvasId: string) {
     modal.innerHTML = `
         <div class="art-modal-content">
             <div class="art-modal-controls">
-                <button class="art-modal-close">&times;</button>
+                <button class="art-modal-close">Close</button>
                 <button class="art-regenerate-btn">Regenerate</button>
             </div>
             <canvas id="modal-${originalCanvasId}" width="800" height="600"></canvas>
@@ -667,6 +720,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Functions that should run on all pages because their elements (sidebar, footer) are on all pages
     // or they have internal checks for page-specific elements.
     loadProjects(); // Populates sidebar submenu always, and .project-grid if on projects.html
+    setupSidebarNav(); // Current-page underline and the mobile "Menu" button
     setupProjectsToggle(); // For the sidebar project expander
 
     // Page-specific content loading based on element existence

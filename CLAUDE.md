@@ -29,12 +29,14 @@ Personal portfolio and blog website for Graham Wahlberg, live at **grahamwahlber
 ├── links.html              # Curated links (static)
 ├── contact.html            # Contact page
 ├── index.tsx               # Main application logic (shared by all pages)
-├── index.css               # Global stylesheet (all pages)
+├── index.css               # Global stylesheet (all pages): Print and Pen brand
 ├── vite.config.ts          # Multi-page build, manifest generation, clean-URL page generation
 ├── vercel.json             # Redirects (old WordPress URLs, raw project URLs)
 ├── tsconfig.json           # TypeScript configuration
 ├── TODO.md                 # Running task list / roadmap
 └── public/
+    ├── brand/              # Crest, signature, loop, favicon (Pen blue SVGs)
+    ├── fonts/              # Self-hosted Libre Caslon woff2 + OFL licence
     ├── robots.txt
     ├── sitemap.xml         # Static; update when adding/removing pages
     └── content/            # Dynamic content loaded at runtime
@@ -85,7 +87,7 @@ Manifests for projects/art are regenerated on every build and committed — neve
 
 ### Custom Markdown Parser
 
-Hand-written markdown→HTML converter in `index.tsx` (`markdownToHtml`, `applyInlineMarkdown`). Supports **only**: H1–H3, paragraphs, unordered/ordered lists, bold, italic, links. No images, code blocks, blockquotes, tables, or H4+. Keep blog posts and `about.md` within this subset (or extend the parser first).
+Hand-written markdown→HTML converter in `index.tsx` (`markdownToHtml`, `applyInlineMarkdown`). Supports **only**: H1–H3, paragraphs, unordered/ordered lists, horizontal rules (`---`), bold, italic, links. No images, code blocks, blockquotes, tables, or H4+. Keep blog posts and `about.md` within this subset (or extend the parser first).
 
 ### Core TypeScript Interfaces (in `index.tsx`)
 
@@ -99,23 +101,33 @@ Hand-written markdown→HTML converter in `index.tsx` (`markdownToHtml`, `applyI
 
 ## Style Guidelines
 
-### Visual design (see `index.css`)
+### Visual design: "Print and Pen" (see `index.css`)
 
-- **Typography:** system sans stack `'Segoe UI', Tahoma, Geneva, Verdana, sans-serif` for everything, with `'Courier New', Courier, monospace` as the accent font (taglines, sidebar project submenu). Don't introduce webfonts — zero-dependency is the point.
-- **Palette:** body text `#333` (secondary `#444`/`#555`, muted `#666`/`#777`); links and primary buttons `#007bff` (hover `#0056b3`); page background `#fff`, sidebar `#f5f5f5`, light panels `#f8f9fa`; footer `#333` with `#f4f4f4` text; errors `#d9534f`. Stay in this palette; no CSS variables are defined — use the literal values like the rest of the file.
-- **Layout:** left sidebar nav (collapses to top nav ≤800px); **CSS Grid** for content grids (`.project-grid`, `.art-grid`), **Flexbox** for nav and modals. Breakpoints: **800px** (major — sidebar→top nav) and **768px** (minor adjustments).
-- **Class naming:** BEM-inspired, lowercase-hyphenated (`.project-card`, `.blog-post-full`, `.art-item`, `.btn-view-project`). New styles go in `index.css` grouped near related rules — no inline styles except trivial dynamic ones set from TS.
+The site follows Graham's personal brand. The full spec is the `wahlberg-brand` skill; this is the working summary. Two layers:
+
+- **Print** is everything typeset: Libre Caslon in Press black on a Fog page. Quiet and bookish. Structure comes from type size, space and hairlines, never ornament.
+- **Pen** is one ink blue, only for things a hand does: link underlines, the current-page underline, focus rings, the signature, the crest stamp, the loop, the disc and the few buttons. If a blue thing isn't a hand mark, make it black.
+
+- **Tokens** (CSS variables in `:root`, `index.css`): `--fog #EBEAE5` (page; never pure white), `--press #000` (all text), `--pencil #5E5D58` (dates, captions, labels), `--pen #2440B0` (hand layer only; no tints), `--hairline rgba(0,0,0,.22)`. No other colors, no gradients.
+- **Type:** Libre Caslon Display for page titles, headings and the home hero sentence (weight 400 only); Libre Caslon Text (regular, italic, bold) for everything else. Self-hosted woff2 files in `public/fonts/` (SIL OFL), fallback `Georgia, serif`. **No monospace, no sans-serif, no other webfonts.** Body 20px (18px on phones), line-height 1.62.
+- **Print rules:** flush left, never justified. Paragraphs are indented 1.6em with no space between them (the first after a heading isn't indented). Labels and dates are italic Pencil in sentence case; never tracked capitals. Dates are written out: "18 December 2023". Headings are sentence case.
+- **Banned:** cards, shadows, rounded boxes, icons, emoji, gradients, badges, big-number stat callouts. Lists of things (blog, projects, talks, Start Here) are **hairline lists**: rows separated by 1px hairlines.
+- **Pen marks, each used sparingly:** the footer on every page carries the crest (`/brand/crest-pen.svg`, rotated −8° as a stamp, never under 96px wide, never redrawn) and Graham's signature (`/brand/signature-pen.svg`, an image, never a script font). At most one **loop** per page (home: around Informational interviews, with "start here" in Pen italic) and at most one **disc** (contact: "Write to me"). Keep to three kinds of pen mark per page.
+- **Buttons:** few. Pen fill, Fog italic text, fully rounded ends, 44px tall (`.button`, art buttons).
+- **Layout:** left sidebar nav (Graham wants the site menu always on the left, including around projects); the current page gets a Pen underline via `aria-current`. At ≤800px the sidebar becomes a name bar with a "Menu" text button (added by `setupSidebarNav` in `index.tsx`; no hamburger icon). Main column is left-aligned at a ~36em measure. Breakpoints: 1100px (narrower margins), 800px (phones), 768px (minor).
+- **Class naming:** BEM-inspired, lowercase-hyphenated. New styles go in `index.css` grouped near related rules; no inline styles.
+- **Motion:** none beyond hover color changes; respect `prefers-reduced-motion`.
 
 ### Code style
 
 - **No framework abstractions** — `document.getElementById`, `innerHTML` templates, `addEventListener`. Feature functions are self-guarding: they look up their root element and silently return if it's not on the current page, so `index.tsx` can run on every page.
-- Graceful degradation on fetch failure: remove `.loading-message`, insert a `<p class="error-message">`.
+- Graceful degradation on fetch failure: remove `.loading-message`, insert a `<p class="error-message">` that says what to do next, without apology.
 - Semantic HTML with correct heading hierarchy; ARIA attributes, `.sr-only`, and `aria-live` regions for dynamic content. External links get `target="_blank" rel="noopener noreferrer"`.
 - TypeScript strict mode with no unused locals/parameters is enforced by `tsconfig.json`.
 
 ### Writing voice (content)
 
-First person, plain-spoken, enthusiastic but unpolished-on-purpose (see `business-ideas.html`, `about.md`). Short paragraphs, liberal lists and links. Identity anchors that recur across pages: husband/father of 5, Christian, industrial real estate ("industrial real estate nerd"), Goodman/GNAP, informational interviews evangelist.
+First person, plain-spoken. Thesis first, specific over general, understatement over emphasis, short paragraphs, em-dashes sparingly. Banned: leverage, synergies, journey, deep-dive, unpack, "at the end of the day", going forward, utilize, reach out, circle back. Existing pages (`business-ideas.html`, `about.md`) are Graham's own looser voice; don't rewrite his copy without asking. Identity anchors that recur across pages: husband/father of 5, Christian, industrial real estate ("industrial real estate nerd"), Goodman/GNAP, informational interviews evangelist.
 
 ## Deployment Notes
 

@@ -38,7 +38,11 @@ The posts look like they were edited during the AI migration. Replace with Graha
 - [ ] Informational Interviews: what to do when they don't want to meet (`2016-03-22-informational-interviews-follow-up.md`)
 
 ### Styling
-- [ ] Restyle the site — waiting on Graham's design thoughts
+- [x] Restyle the site in the Print and Pen brand (Caslon on Fog, hairline lists, crest and signature footer, loop on home, disc on contact)
+- [ ] Confirm the footer location line ("Newport Beach, California") and the home hero sentence, which merges the old tagline into one line
+- [ ] `about.md` still has Title Case headings and an "About Graham Wahlberg" heading that repeats the section title; tidy when Graham reviews the copy
+- [ ] One real photograph per page (harbor, job sites, buildings), per the brand; the headshot is the only photo today
+- [ ] Business ideas, Links and About copy predate the brand voice (exclamation marks, "journey" in two blog posts); revisit alongside the verbatim blog restore
 
 ### Projects: keep the site nav around them
 Done: `project.html` shell at `/projects/<folder>/` (sidebar + framed project).
