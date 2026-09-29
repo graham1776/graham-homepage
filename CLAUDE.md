@@ -29,8 +29,8 @@ Personal portfolio and blog website for Graham Wahlberg, live at **grahamwahlber
 ├── contact.html            # Contact page
 ├── index.tsx               # Main application logic (shared by all pages)
 ├── index.css               # Global stylesheet (all pages)
-├── vite.config.ts          # Multi-page build, manifest generation, dev mirror of vercel.json rewrites
-├── vercel.json             # Redirects (old WordPress URLs, raw project URLs) + clean-URL rewrites
+├── vite.config.ts          # Multi-page build, manifest generation, clean-URL page generation
+├── vercel.json             # Redirects (old WordPress URLs, raw project URLs)
 ├── tsconfig.json           # TypeScript configuration
 ├── TODO.md                 # Running task list / roadmap
 └── public/
@@ -61,7 +61,7 @@ There are no test, lint, or format commands. Note: `npm run build` does **not** 
 
 Vite is configured with **11 HTML entry points** (`vite.config.ts` → `rollupOptions.input`). Each HTML file is a separate page sharing the same `index.tsx` and `index.css`. When adding a page, add it to the input map, the sidebar nav in **every** HTML file, and `public/sitemap.xml`, and include the Vercel Web Analytics snippet (the two `<script>` tags before `</head>`, `/_vercel/insights/script.js`). New project sub-site pages need that snippet too, or their traffic isn't counted. The one exception is `project.html`: it deliberately has no snippet, because the framed project page counts the view.
 
-`post.html` and `project.html` are served at clean URLs via `vercel.json` rewrites (mirrored for `npm run dev`/`preview` by the `cleanUrlRewrites` plugin in `vite.config.ts`). They use `<base href="/">` so the sidebar's relative links still resolve from nested paths.
+`post.html` and `project.html` are served at clean URLs as **real files**, with no server rewrites: after the build, the `cleanUrlPages` plugin in `vite.config.ts` copies the built `post.html` to `dist/blog/<slug>/index.html` for every post in the blog manifest, and the built `project.html` to `dist/projects/<folder>/<page>` for every HTML page of every project. In `npm run dev` the same plugin maps those URLs on the fly. Don't switch this to `vercel.json` rewrites: they 404'd in production. They use `<base href="/">` so the sidebar's relative links still resolve from nested paths.
 
 ### Project Shell
 

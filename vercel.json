@@ -58,15 +58,5 @@
       "destination": "/projects/:path+",
       "permanent": false
     }
-  ],
-  "rewrites": [
-    {
-      "source": "/blog/:slug",
-      "destination": "/post.html"
-    },
-    {
-      "source": "/projects/:path*",
-      "destination": "/project.html"
-    }
   ]
 }
