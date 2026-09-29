@@ -197,6 +197,7 @@ export default defineConfig(() => {
             project: path.resolve(__dirname, 'project.html'),
             projects: path.resolve(__dirname, 'projects.html'),
             resume: path.resolve(__dirname, 'resume.html'),
+            talks: path.resolve(__dirname, 'talks.html'),
           }
         }
       }
