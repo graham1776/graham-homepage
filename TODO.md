@@ -17,11 +17,17 @@ Running task list for grahamwahlberg.com. Check items off as they land.
 ## Domain cutover (Graham — manual steps)
 
 - [ ] **Rescue the cheat-sheet PDF first:** download `https://grahamwahlberg.com/wp-content/uploads/2024/05/commercial-real-estate-chatgpt-cheat-sheet.pdf` from the old WordPress site (it's indexed by Google), commit it at `public/wp-content/uploads/2024/05/` with the same file name, and remove the temporary redirect for it in `vercel.json`. Also export/save anything else worth keeping from WordPress before shutting it down.
-- [ ] In Vercel: project → Settings → Domains → add `grahamwahlberg.com` and `www.grahamwahlberg.com`.
-- [ ] In WordPress.com (Domains → DNS records): set `A @ → 76.76.21.21` and `CNAME www → cname.vercel-dns.com` (Vercel's Domains screen shows the exact records it wants — follow those if they differ).
-- [ ] After DNS propagates: verify `https://grahamwahlberg.com` serves the new site with a valid certificate, and spot-check the redirects (`/informational_interviews/`, `/about/`, `/blog/`).
+- [x] In Vercel: project → Settings → Domains → add `grahamwahlberg.com` and `www.grahamwahlberg.com`.
+- [x] At Squarespace (the registrar — Domains → DNS): set `A @ → 76.76.21.21` and `CNAME www → cname.vercel-dns.com` (Vercel's Domains screen shows the exact records it wants — follow those if they differ).
+- [x] DNS live — both `grahamwahlberg.com` and `www` serve the new site. Still to do after DNS propagates: verify `https://grahamwahlberg.com` serves the new site with a valid certificate, and spot-check the redirects (`/informational_interviews/`, `/about/`, `/blog/`).
 - [ ] Google Search Console: add/verify the domain property and submit `https://grahamwahlberg.com/sitemap.xml`.
+- [ ] **Before cancelling WordPress:** export Jetpack stats CSVs (Stats → Traffic → Years; Posts & Pages, Referrers, Countries, Search Terms, Clicks) for 2016 onward. Downgrade to the free plan rather than deleting the site so the stats history stays viewable.
 - [ ] Cancel the WordPress.com plan once everything checks out (keep the domain registration!).
+
+## Analytics
+
+- [x] Vercel Web Analytics snippet on all pages (main pages + project sub-sites)
+- [x] Enable Web Analytics in the Vercel dashboard (project → Analytics) if not already on
 
 ## Nice-to-haves (post-launch)
 
