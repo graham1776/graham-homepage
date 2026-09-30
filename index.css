@@ -1,4 +1,65 @@
-/* Basic Reset */
+/* Graham Wahlberg: "Print and Pen" (see CLAUDE.md, Style Guidelines).
+   Print: Libre Caslon in Press black on a Fog page. Pen: one ink blue, only for hand marks
+   (signature, crest, the loop, the disc, link underlines, focus). No cards, shadows, rounded
+   boxes, icons, emoji, gradients or monospace. */
+
+/* Fonts: self-hosted Libre Caslon (SIL OFL, see /fonts/OFL.txt) */
+@font-face {
+    font-family: 'Libre Caslon Display';
+    src: url('/fonts/libre-caslon-display-latin-400-normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Caslon Text';
+    src: url('/fonts/libre-caslon-text-latin-400-normal.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Caslon Text';
+    src: url('/fonts/libre-caslon-text-latin-400-italic.woff2') format('woff2');
+    font-weight: 400;
+    font-style: italic;
+    font-display: swap;
+}
+@font-face {
+    font-family: 'Libre Caslon Text';
+    src: url('/fonts/libre-caslon-text-latin-700-normal.woff2') format('woff2');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+:root {
+    /* Color */
+    --fog: #EBEAE5;      /* the page */
+    --press: #000000;    /* all typeset text */
+    --pencil: #5E5D58;   /* captions, dates, labels */
+    --pen: #2440B0;      /* the hand layer only */
+    --hairline: rgba(0, 0, 0, 0.22);
+
+    /* Type */
+    --display: 'Libre Caslon Display', 'Adobe Caslon Pro', Georgia, serif;
+    --text: 'Libre Caslon Text', 'Adobe Caslon Pro', Georgia, serif;
+    --t-hero: clamp(33px, 3.6vw, 52px);
+    --t-title: clamp(44px, 4.8vw, 72px);
+    --t-h2: 32px;
+    --t-h3: 24px;
+    --t-list: 24px;
+    --t-body: 20px;
+    --t-meta: 16px;
+    --t-note: 15px;
+
+    /* Layout */
+    --sidebar: 250px;
+    --margin: 80px;
+    --measure: 36em;
+}
+
+/* Basic reset */
 * {
     margin: 0;
     padding: 0;
@@ -7,64 +68,98 @@
 
 html {
     scroll-behavior: smooth;
+    background: var(--fog);
 }
 
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #fff; /* Main background for content area if sidebar is different */
+    font-family: var(--text);
+    font-size: var(--t-body);
+    line-height: 1.62;
+    color: var(--press);
+    background: var(--fog);
+    font-variant-numeric: oldstyle-nums;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
     display: flex;
     min-height: 100vh;
 }
 
-/* Sidebar Styling */
+/* Links: Press text, 1px Pen underline, Pen on hover */
+a {
+    color: inherit;
+    text-decoration: underline;
+    text-decoration-color: var(--pen);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+}
+a:hover,
+a:focus {
+    color: var(--pen);
+}
+:focus-visible {
+    outline: 2px solid var(--pen);
+    outline-offset: 3px;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Labels, dates, captions: italic Pencil */
+.meta,
+.post-meta,
+.resume-meta {
+    font-style: italic;
+    font-size: var(--t-meta);
+    color: var(--pencil);
+}
+
+/* ---------- Sidebar (the site's navigation, on every page) ---------- */
 #sidebar {
-    width: 230px;
-    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    width: var(--sidebar);
+    flex-shrink: 0;
     min-height: 100vh;
-    background-color: #f5f5f5;
-    border-right: 1px solid #e0e0e0;
-    padding: 2rem 1.5rem;
+    height: 100vh;
     position: sticky;
     top: 0;
-    height: 100vh; /* Make sidebar always full height */
-    overflow-y: auto; /* Allow sidebar to scroll if content overflows */
+    overflow-y: auto;
+    padding: 40px 28px 40px 36px;
+    border-right: 1px solid var(--hairline);
 }
 
 #logo-sidebar h1 {
-    font-size: 1.6rem; /* Slightly larger for emphasis */
-    font-weight: 700;
-    margin-bottom: 2rem; /* Space below logo */
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: 28px;
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 40px;
 }
 
 #logo-sidebar h1 a {
     text-decoration: none;
-    color: #333;
 }
 
 #sidebar-nav ul {
     list-style: none;
-    padding: 0;
 }
 
 #sidebar-nav ul li {
-    margin-bottom: 0.8rem;
+    margin-bottom: 4px;
 }
 
 #sidebar-nav ul li a,
 #projects-toggle-btn {
+    display: inline-block;
+    padding: 3px 0;
+    font-family: var(--text);
+    font-size: 17px;
+    color: var(--press);
     text-decoration: none;
-    color: #444; /* Slightly darker for better contrast on light grey */
-    font-weight: 500;
-    font-size: 1rem;
-    display: block; /* Make whole area clickable */
-    padding: 0.3rem 0;
-    transition: color 0.2s ease-in-out;
     background: none;
     border: none;
     text-align: left;
-    width: 100%;
     cursor: pointer;
 }
 
@@ -72,703 +167,835 @@ body {
 #sidebar-nav ul li a:focus,
 #projects-toggle-btn:hover,
 #projects-toggle-btn:focus {
-    color: #007bff;
+    color: var(--pen);
+}
+
+/* The current page gets a Pen underline */
+#sidebar-nav a[aria-current="page"] {
+    text-decoration: underline;
+    text-decoration-color: var(--pen);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
 }
 
 #projects-toggle-btn .expander-icon {
     display: inline-block;
-    margin-left: 0.5em;
-    transition: transform 0.2s ease-in-out;
+    margin-left: 0.35em;
+    color: var(--pencil);
 }
 
-#projects-toggle-btn[aria-expanded="true"] .expander-icon {
-    /* transform: rotate(180deg); Icon text ▲/▼ handles visual change */
+/* The mobile rule `#sidebar-nav ul { display: flex }` would otherwise override [hidden] */
+#projects-submenu[hidden] {
+    display: none;
 }
 
 #projects-submenu {
-    list-style: none;
-    padding-left: 1.5rem; /* Indent submenu items */
-    margin-top: 0.5rem;
-    overflow: hidden;
-    border-left: 2px solid #ddd;
+    margin: 2px 0 8px 1em;
 }
 
 #projects-submenu li {
-    margin-bottom: 0.25rem;
+    margin-bottom: 0;
 }
 
-#projects-submenu li a {
-    font-size: 0.8rem; /* Smaller for submenu */
-    font-weight: 400;
-    font-family: 'Courier New', Courier, monospace;
-    color: #666;
-    padding: 0.15rem 0;
+#sidebar-nav #projects-submenu li a {
+    font-size: var(--t-note);
+    font-style: italic;
+    color: var(--pencil);
+    line-height: 1.4;
 }
 
+#sidebar-nav #projects-submenu li a:hover,
+#sidebar-nav #projects-submenu li a:focus {
+    color: var(--pen);
+}
 
-/* Page Content Wrapper */
+.submenu-note {
+    font-size: var(--t-note);
+    font-style: italic;
+    color: var(--pencil);
+}
+
+/* Mobile "Menu" button: created by index.tsx, shown only at phone widths */
+.menu-toggle {
+    display: none;
+    height: 44px;
+    padding: 0 4px;
+    border: none;
+    background: none;
+    font-family: var(--text);
+    font-style: italic;
+    font-size: 17px;
+    color: var(--press);
+    cursor: pointer;
+}
+
+/* ---------- Page content ---------- */
 #page-content-wrapper {
     flex-grow: 1;
-    padding: 0; /* Remove padding here, main will handle it */
-    overflow-y: auto; /* Allows only this area to scroll */
+    min-width: 0;
     display: flex;
-    flex-direction: column; /* To make footer stick to bottom */
+    flex-direction: column;
 }
 
 main {
-    max-width: 800px;
-    margin: 0 auto; /* Center the main content */
-    padding: 2.5rem; /* Padding for the content block */
-    width: 100%; /* Ensure it takes available space up to max-width */
-    flex-grow: 1; /* Allows main to take up space pushing footer down */
+    width: 100%;
+    max-width: calc(var(--measure) + 2 * var(--margin));
+    padding: 88px var(--margin) 0;
+    flex-grow: 1;
 }
 
-
-/* Hero Section */
-#hero {
-    padding: 2rem 0;
-    text-align: left;
-    margin-bottom: 2.5rem;
-}
-
-#hero h2 {
-    font-size: 2.5rem;
-    margin-bottom: 0.5rem;
-    font-weight: 700;
-    color: #333;
-}
-
-#hero p {
-    font-size: 1.1rem;
-    font-weight: 300;
-    color: #555;
-}
-
-/* Content Sections */
 .content-section {
-    margin-bottom: 2.5rem;
+    margin-bottom: 72px;
 }
 .content-section:last-of-type {
     margin-bottom: 0;
 }
 
-.content-section h2 { /* Applies to section titles like "About Me", "Projects Showcase" etc */
-    font-size: 2rem;
-    margin-bottom: 1.5rem;
-    color: #333;
-    text-align: left;
-    font-weight: 600;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 0.5rem;
+/* Headings: Display, sentence case, structure from size and space */
+.content-section h2 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: var(--t-h2);
+    line-height: 1.1;
+    letter-spacing: -0.01em;
+    margin-bottom: 28px;
 }
 
-/* Headshot */
-.about-header {
-    text-align: center;
-    margin-bottom: 1.5rem;
+/* The first heading on a page is the page title */
+main > .content-section:first-child > h2 {
+    font-size: var(--t-title);
+    line-height: 1.02;
+    letter-spacing: -0.018em;
+    margin-bottom: 36px;
 }
 
-.headshot {
-    width: 180px;
-    height: 180px;
-    border-radius: 50%;
-    object-fit: cover;
-    border: 3px solid #e0e0e0;
+.content-section h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    font-size: var(--t-h3);
+    line-height: 1.2;
+    margin: 44px 0 14px;
 }
 
-/* Styles for content loaded from Markdown */
-#about-content h1, #about-content h2, #about-content h3 {
-    font-weight: 600;
-    color: #333;
-    margin-top: 1.2em;
-    margin-bottom: 0.6em;
-}
-#about-content h1 { font-size: 1.8rem; } /* Markdown H1 */
-#about-content h2 { font-size: 1.5rem; border-bottom: 1px solid #eee; padding-bottom: 0.3em;} /* Markdown H2 */
-#about-content h3 { font-size: 1.2rem; } /* Markdown H3 */
-
-#about-content p, .content-section p, 
-#about-content ul, .content-section ul,
-#about-content ol, .content-section ol {
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    color: #444;
+.content-section h4 {
+    font-family: var(--text);
+    font-weight: 700;
+    font-size: var(--t-body);
+    line-height: 1.35;
+    margin-bottom: 4px;
 }
 
-#about-content ul, .content-section ul,
-#about-content ol, .content-section ol {
-    list-style-position: outside;
-    padding-left: 1.5rem;
+/* Prose: flush left, indented paragraphs with no space between */
+.content-section p,
+#about-content p,
+.blog-post-content p {
+    margin: 0;
 }
 
-#about-content ul li, .content-section ul li,
-#about-content ol li, .content-section ol li {
-    margin-bottom: 0.5rem;
+.content-section p + p,
+#about-content p + p,
+.blog-post-content p + p {
+    text-indent: 1.6em;
 }
 
-#about-content a, .content-section a { /* General link styling within content sections */
-    color: #007bff;
+.content-section ul,
+.content-section ol,
+#about-content ul,
+#about-content ol,
+.blog-post-content ul,
+.blog-post-content ol {
+    margin: 16px 0 20px;
+    padding-left: 1.3em;
+}
+
+.content-section li,
+#about-content li,
+.blog-post-content li {
+    margin-bottom: 6px;
+}
+
+.content-section li::marker,
+#about-content li::marker,
+.blog-post-content li::marker {
+    color: var(--pencil);
+}
+
+.content-section p + ul,
+.content-section p + ol {
+    margin-top: 16px;
+}
+
+/* Hairline lists: the index pattern (blog, projects, talks, start here).
+   Prefixed with .content-section to beat the generic content-list rules above. */
+.hairlist,
+.project-grid,
+#blog-posts-container,
+.content-section .talk-list,
+.content-section .start-here-links {
+    margin: 0;
+    list-style: none;
+    padding-left: 0;
+    border-bottom: 1px solid var(--hairline);
+}
+
+/* ---------- Home ---------- */
+.hero-sentence {
+    font-family: var(--display);
+    font-size: var(--t-hero);
+    line-height: 1.12;
+    letter-spacing: -0.012em;
+    max-width: 17em;
+}
+
+#hero {
+    margin-bottom: 88px;
+}
+
+.start-here-section h2 {
+    margin-bottom: 8px;
+}
+
+.start-here-section .meta {
+    margin-bottom: 20px;
+}
+
+.start-here-links {
+    margin: 0;
+}
+
+.start-here-links li {
+    position: relative;
+    border-top: 1px solid var(--hairline);
+    padding: 20px 0;
+    list-style: none;
+}
+
+.start-here-links a {
+    font-size: var(--t-list);
+    line-height: 1.25;
     text-decoration: none;
 }
-#about-content a:hover, .content-section a:hover,
-#about-content a:focus, .content-section a:focus {
-    text-decoration: underline;
+
+.start-here-links .meta {
+    display: block;
+    margin: 4px 0 0;
 }
 
-
-/* Project Grid & Art Grid */
-.project-grid, .art-grid, #blog-posts-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1.5rem;
-    margin-top: 1.5rem;
+/* The loop: once per page, around the one thing to read first */
+.loop {
+    position: absolute;
+    left: -28px;
+    top: -2px;
+    width: calc(100% + 40px);
+    height: calc(100% + 6px);
+    pointer-events: none;
 }
 
-/* If blog summaries should be single column, override here */
-#blog-posts-container {
-    grid-template-columns: 1fr; /* Makes blog posts stack vertically */
+.start-note {
+    position: absolute;
+    right: 0;
+    top: -14px;
+    font-style: italic;
+    font-size: var(--t-note);
+    color: var(--pen);
+    background: var(--fog);
+    padding: 0 6px;
 }
 
+/* One photograph, rectangular, with an italic caption */
+.plate {
+    margin: 0 0 32px;
+}
 
-.project-card, .blog-post-summary, .blog-post-full, .art-item {
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    padding: 1.25rem;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    transition: transform 0.2s ease, box-shadow 0.2s ease;
+.plate img,
+.headshot {
+    display: block;
+    width: 280px;
+    max-width: 100%;
+    height: auto;
+    filter: saturate(0.85);
+}
+
+.plate figcaption {
+    margin-top: 10px;
+}
+
+#about-content h1,
+#about-content h2,
+#about-content h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 36px 0 12px;
+}
+#about-content h1 { font-size: var(--t-h2); }
+#about-content h2 { font-size: var(--t-h3); }
+#about-content h3 { font-size: var(--t-body); }
+
+/* ---------- Projects ---------- */
+.project-grid {
+    margin-top: 8px;
+}
+
+.project-card {
+    border-top: 1px solid var(--hairline);
+    padding: 22px 0;
+}
+
+.project-card h3,
+.content-section .project-card h3 {
+    font-family: var(--text);
+    font-size: var(--t-list);
+    line-height: 1.25;
+    margin: 0 0 4px;
+}
+
+.project-card h3 a {
+    text-decoration: none;
+}
+
+.project-card p {
+    font-size: 17px;
+    color: var(--pencil);
+    margin-bottom: 6px;
+}
+
+.btn-view-project {
+    font-style: italic;
+    font-size: var(--t-meta);
+}
+
+.project-thumbnail {
+    display: block;
+    width: 100%;
+    max-width: 360px;
+    margin-bottom: 14px;
+}
+
+/* ---------- Blog ---------- */
+.blog-post-summary {
+    border-top: 1px solid var(--hairline);
+    padding: 22px 0;
+}
+
+.blog-post-summary h3,
+.content-section .blog-post-summary h3 {
+    font-family: var(--text);
+    font-size: var(--t-list);
+    line-height: 1.25;
+    margin: 2px 0 6px;
+}
+
+.blog-post-summary h3 a {
+    text-decoration: none;
+}
+
+.blog-post-summary > p:last-child {
+    font-size: 17px;
+    color: var(--pencil);
+    text-indent: 0;
+}
+
+/* Single post (post.html, served at /blog/<slug>) */
+.back-link {
+    font-style: italic;
+    font-size: var(--t-meta);
+    margin-bottom: 48px !important;
+}
+
+.post-label {
+    margin-bottom: 14px !important;
+}
+
+#blog-post .blog-post-full > h2 {
+    font-size: var(--t-title);
+    line-height: 1.02;
+    letter-spacing: -0.018em;
+    margin-bottom: 48px;
+}
+
+.blog-post-content h1,
+.blog-post-content h2,
+.blog-post-content h3 {
+    font-family: var(--display);
+    font-weight: 400;
+    line-height: 1.2;
+    margin: 40px 0 12px;
+}
+.blog-post-content h1 { font-size: var(--t-h2); }
+.blog-post-content h2 { font-size: var(--t-h3); }
+.blog-post-content h3 { font-size: var(--t-body); }
+
+/* A markdown "---" is a hairline, not an ornament */
+.blog-post-content hr {
+    border: 0;
+    border-top: 1px solid var(--hairline);
+    margin: 28px 0;
+}
+
+.blog-post-content hr + p,
+.blog-post-content h1 + p,
+.blog-post-content h2 + p,
+.blog-post-content h3 + p {
+    text-indent: 0;
+}
+
+.post-next {
+    margin-top: 88px;
+    padding-top: 24px;
+    border-top: 1px solid var(--press);
+}
+
+.post-next a {
+    display: block;
+    margin-top: 6px;
+    font-family: var(--display);
+    font-size: 36px;
+    line-height: 1.1;
+    text-decoration: none;
+}
+
+/* ---------- Talks ---------- */
+#talks h3 {
+    font-size: var(--t-h2);
+    margin: 56px 0 12px;
+}
+
+.talk-list {
+    margin: 0;
+}
+
+#talks .talk-list {
+    padding-left: 0;
+    margin: 0;
+}
+
+#talks .talk-entry {
+    display: flex;
+    gap: 24px;
+    padding: 16px 0;
+    margin: 0;
+    border-top: 1px solid var(--hairline);
+}
+
+.talk-date {
+    flex: 0 0 7em;
+    font-style: italic;
+    font-size: var(--t-meta);
+    color: var(--pencil);
+    padding-top: 3px;
+}
+
+.talk-details {
     display: flex;
     flex-direction: column;
 }
 
-.project-card:hover, .blog-post-summary:hover, .art-item:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.08);
+.talk-role {
+    font-style: italic;
+    font-size: var(--t-meta);
+    color: var(--pencil);
 }
 
-.blog-post-full {
-    padding: 1.5rem;
-    margin-bottom: 1rem;
+/* ---------- Resume ---------- */
+.resume-entry {
+    margin-bottom: 28px;
 }
 
-.blog-post-full h3 {
-    font-size: 1.4rem;
-    margin-bottom: 0.5rem;
-    color: #333;
+.resume-entry ul {
+    margin-top: 8px;
 }
 
-.blog-post-content h1, .blog-post-content h2, .blog-post-content h3 {
-    font-weight: 600;
-    color: #333;
-    margin-top: 1.2em;
-    margin-bottom: 0.6em;
+/* ---------- Business ideas ---------- */
+#business-ideas-nav {
+    margin: 36px 0 0;
 }
-.blog-post-content h1 { font-size: 1.5rem; }
-.blog-post-content h2 { font-size: 1.3rem; border-bottom: 1px solid #eee; padding-bottom: 0.3em; }
-.blog-post-content h3 { font-size: 1.1rem; }
 
-.blog-post-content p {
-    margin-bottom: 1rem;
-    font-size: 1rem;
-    color: #444;
+#business-ideas-nav h3 {
+    font-family: var(--text);
+    font-style: italic;
+    font-size: var(--t-meta);
+    color: var(--pencil);
+    margin: 0 0 8px;
+}
+
+.nav-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    font-size: 17px;
+}
+
+.business-ideas-list li {
+    margin-bottom: 14px;
+}
+
+/* ---------- Art ---------- */
+.art-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 48px 32px;
+    margin-top: 32px;
+}
+
+.art-item h3,
+.content-section .art-item h3 {
+    font-family: var(--text);
+    font-size: 22px;
+    margin: 0 0 4px;
+}
+
+.art-item p {
+    font-size: 17px;
+    color: var(--pencil);
+    margin-bottom: 12px;
+}
+
+.art-item canvas {
+    display: block;
+    max-width: 100%;
+    border: 1px solid var(--hairline);
+    cursor: pointer;
+    margin-bottom: 14px;
+}
+
+/* Buttons: few, Pen fill, Fog italic text, fully rounded ends */
+/* "View full size" is a quiet text link; the one pill lives in the viewer (Regenerate) */
+.btn-expand-art {
+    padding: 0;
+    border: 0;
+    background: none;
+    font-family: var(--text);
+    font-style: italic;
+    font-size: var(--t-meta);
+    color: var(--press);
+    text-decoration: underline;
+    text-decoration-color: var(--pen);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.22em;
+    cursor: pointer;
+    min-height: 44px;
+}
+
+.btn-expand-art:hover,
+.btn-expand-art:focus {
+    color: var(--pen);
+}
+
+.button,
+.art-regenerate-btn,
+.art-modal-close {
+    height: 44px;
+    padding: 0 22px;
+    border: 0;
+    border-radius: 22px;
+    background: var(--pen);
+    color: var(--fog);
+    font-family: var(--text);
+    font-style: italic;
+    font-size: var(--t-meta);
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.button:hover,
+.art-regenerate-btn:hover,
+.art-modal-close:hover {
+    color: var(--fog);
+}
+
+.art-modal-close {
+    background: none;
+    color: var(--press);
+    padding: 0 8px;
+}
+
+.art-modal-close:hover {
+    color: var(--pen);
+}
+
+.art-modal {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.72);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.art-modal-content {
+    background: var(--fog);
+    padding: 24px;
+    max-width: 92vw;
+    max-height: 92vh;
+    overflow: auto;
+}
+
+.art-modal-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.art-modal canvas {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+/* ---------- The disc: one per page, for the single most important action ---------- */
+.disc {
+    float: right;
+    width: 136px;
+    height: 136px;
+    margin: -24px 0 24px 32px;
+    border-radius: 50%;
+    background: var(--pen);
+    color: var(--fog);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-style: italic;
+    font-size: 19px;
+    line-height: 1.15;
+    text-decoration: none;
+    transform: rotate(-11deg);
+}
+
+.disc:hover,
+.disc:focus {
+    color: var(--fog);
+}
+
+/* ---------- Footer: full Press rule, crest stamp and signature ---------- */
+.site-foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 32px;
+    margin: 120px var(--margin) 0;
+    max-width: calc(var(--measure) + 12em);
+    padding: 28px 0 56px;
+    border-top: 1px solid var(--press);
+}
+
+.foot-where {
+    font-size: var(--t-meta);
     line-height: 1.7;
 }
 
-.blog-post-content ul, .blog-post-content ol {
-    margin-bottom: 1rem;
-    padding-left: 1.5rem;
+.foot-sign {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
 }
 
-.blog-post-content li {
-    margin-bottom: 0.5rem;
+.crest {
+    display: block;
+    width: 112px;
+    height: auto;
 }
 
-.blog-post-content a {
-    color: #007bff;
-    text-decoration: none;
-}
-.blog-post-content a:hover {
-    text-decoration: underline;
+.crest--stamp {
+    transform: rotate(-8deg);
 }
 
-.project-thumbnail {
-    width: 100%;
-    height: 160px;
-    object-fit: cover;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-    border: 1px solid #eee;
+.signature {
+    display: block;
+    width: 210px;
+    height: auto;
 }
 
-.project-card h3, .blog-post-summary h3, .blog-post-full h3, .art-item h3 {
-    font-size: 1.3rem;
-    margin-bottom: 0.5rem;
-    color: #007bff; /* Link-like color for titles */
-}
-.blog-post-summary h3, .blog-post-full h3 {
-    color: #333; /* Blog titles can be standard text color */
-}
-
-
-.project-card p, .blog-post-summary p, .blog-post-full > p, .art-item p {
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-    flex-grow: 1; /* Allows description to take space, pushing button down */
-}
-
-
-.blog-post-summary h3 a {
-    color: inherit;
-    text-decoration: none;
-}
-.blog-post-summary h3 a:hover,
-.blog-post-summary h3 a:focus {
-    color: #007bff;
-}
-.blog-post-summary .btn-read-more {
-    align-self: flex-start;
-}
-
-/* Single post page (post.html, served at /blog/<slug>) */
-#blog-post .blog-post-full {
-    border: none;
-    box-shadow: none;
-    padding: 0;
-}
-#blog-post .blog-post-full h2 {
-    margin-bottom: 0.5rem;
-}
-.back-link {
-    font-size: 0.9rem;
-}
-
-.post-meta {
-    font-size: 0.8rem;
-    color: #777;
-    margin-bottom: 0.5rem !important; /* Override general p margin if needed */
-}
-
-.btn-view-project, .btn-read-more {
-    display: inline-block;
-    background-color: #007bff;
-    color: #fff !important; /* Override general link color */
-    padding: 0.5rem 1rem;
-    text-decoration: none;
-    border-radius: 4px;
-    font-weight: 500;
-    transition: background-color 0.2s ease;
-    margin-top: auto; /* Pushes button to bottom of flex container */
-    text-align: center;
-    font-size: 0.9rem;
-}
-
-.btn-view-project:hover, .btn-read-more:hover,
-.btn-view-project:focus, .btn-read-more:focus {
-    background-color: #0056b3;
-    color: #fff !important;
-}
-
-.loading-message {
-    font-style: italic;
-    color: #777;
-    text-align: center;
-    width: 100%;
-    padding: 1rem 0;
-}
-.error-message {
-    color: #d9534f; /* Bootstrap danger color */
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-    padding: 1rem 0;
-}
-
-
-/* Project shell (project.html, served at /projects/<folder>/): sidebar + full-height framed project */
+/* ---------- Project shell (project.html, served at /projects/<folder>/) ---------- */
 .project-shell-page #page-content-wrapper {
     height: 100vh;
     overflow: hidden;
 }
+
 #project-shell {
     max-width: none;
     padding: 0;
     display: flex;
 }
+
 .project-frame {
     flex-grow: 1;
     width: 100%;
     border: none;
+    background: #fff; /* projects are self-contained sites with their own backgrounds */
 }
 
-/* Footer */
-footer {
-    background-color: #333;
-    color: #f4f4f4;
-    text-align: center;
-    padding: 1.5rem 0;
-    width: 100%;
+/* ---------- States ---------- */
+.loading-message {
+    font-style: italic;
+    color: var(--pencil);
+    padding: 16px 0;
 }
 
-footer p {
-    font-size: 0.9rem;
+.error-message {
+    font-style: italic;
+    padding: 16px 0;
 }
 
-/* Responsive Design */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1100px) {
+    :root {
+        --margin: 48px;
+    }
+}
+
+/* ---------- Phones: sidebar becomes a name bar with a "Menu" button ---------- */
 @media (max-width: 800px) {
+    :root {
+        --margin: 20px;
+        --t-body: 18px;
+        --t-list: 21px;
+        --t-h2: 28px;
+        --t-h3: 22px;
+    }
+
     body {
         flex-direction: column;
     }
 
     #sidebar {
         width: 100%;
-        min-height: auto;
-        position: static;
-        border-right: none;
-        border-bottom: 1px solid #e0e0e0;
-        padding: 1rem;
         height: auto;
-        overflow-y: visible;
-    }
-
-    #logo-sidebar {
-        text-align: center;
-        margin-bottom: 1rem;
-    }
-    #logo-sidebar h1 {
-        font-size: 1.5rem;
-        margin-bottom: 0;
-    }
-
-    #sidebar-nav ul {
+        min-height: 0;
+        position: static;
+        overflow: visible;
+        padding: 14px var(--margin);
+        border-right: none;
+        border-bottom: 1px solid var(--hairline);
         display: flex;
-        flex-direction: column; /* Keep as column for mobile if projects toggle is used */
+        flex-wrap: wrap;
+        justify-content: space-between;
         align-items: center;
-        /* flex-wrap: wrap; */ /* Might not be needed if it's a column */
-        /* justify-content: center; */
-        margin-top: 0;
     }
 
-    #sidebar-nav ul li {
-        margin: 0.5rem 0; /* Vertical spacing for mobile */
-        width: 100%; /* Make list items full width */
-        text-align: center;
-    }
-    #sidebar-nav ul li a, #projects-toggle-btn {
-        padding: 0.3rem 0.5rem;
-        display: block; /* Ensure full width clickability */
-        text-align: center;
-    }
-    #projects-submenu {
-        padding-left: 1rem; /* Reduced indent for mobile */
-        text-align: center;
-        border-left: none;
-    }
-    #projects-submenu li a {
-        display: inline-block; /* Allow centering text */
-        font-size: 0.75rem;
+    #logo-sidebar h1 {
+        font-size: 22px;
+        margin: 0;
     }
 
+    .menu-toggle {
+        display: block;
+    }
 
-    #page-content-wrapper {
+    #sidebar-nav {
+        flex-basis: 100%;
+    }
+
+    /* Only collapse when the Menu button exists (index.tsx adds .has-menu); without JS the nav stays visible */
+    #sidebar.has-menu:not(.menu-open) #sidebar-nav {
+        display: none;
+    }
+
+    #sidebar-nav > ul {
+        display: flex;
+        flex-direction: column;
+        padding: 12px 0 8px;
+    }
+
+    #sidebar-nav ul li a,
+    #projects-toggle-btn {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
         padding: 0;
     }
-    
+
+    #sidebar-nav #projects-submenu li a {
+        min-height: 36px;
+    }
+
     main {
-      padding: 1.5rem;
-      max-width: 100%;
+        padding-top: 48px;
+    }
+
+    .content-section {
+        margin-bottom: 56px;
     }
 
     #hero {
-        padding: 1.5rem 0;
-        text-align: center;
-    }
-    #hero h2 {
-        font-size: 2rem;
-    }
-    #hero p {
-        font-size: 1rem;
+        margin-bottom: 56px;
     }
 
-    .content-section h2 { /* Applies to section titles like "About Me", "Projects Showcase" etc */
-        font-size: 1.6rem;
-        text-align: center;
-    }
-     #about-content h1 { font-size: 1.5rem; text-align: center;}
-     #about-content h2 { font-size: 1.3rem; text-align: center;}
-     #about-content h3 { font-size: 1.1rem; text-align: center;}
-
-    .headshot {
-        width: 140px;
-        height: 140px;
+    .loop {
+        left: -14px;
+        width: calc(100% + 22px);
     }
 
-    /* Project shell on mobile: just the name bar (links home) above the project, not the full stacked nav */
+    #talks .talk-entry {
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .talk-date {
+        flex-basis: auto;
+        padding-top: 0;
+    }
+
+    .disc {
+        width: 104px;
+        height: 104px;
+        font-size: 15px;
+        margin: -8px 0 16px 20px;
+    }
+
+    .site-foot {
+        flex-direction: column;
+        margin-top: 72px;
+    }
+
+    .foot-sign {
+        align-items: flex-start;
+    }
+
+    .signature {
+        width: 170px;
+    }
+
+    .post-next a {
+        font-size: 28px;
+    }
+
     .project-shell-page {
         height: 100vh;
         height: 100dvh;
     }
-    .project-shell-page #sidebar-nav {
-        display: none;
-    }
-    .project-shell-page #logo-sidebar {
-        margin-bottom: 0;
-    }
-    .project-shell-page #sidebar {
-        padding: 0.6rem 1rem;
-    }
+
     .project-shell-page #page-content-wrapper {
         height: auto;
         flex-grow: 1;
         min-height: 0;
     }
+}
 
-    .project-grid, .art-grid, #blog-posts-container { /* All grids become single column on mobile */
-        grid-template-columns: 1fr;
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
     }
-}
-
-/* Accessibility */
-a:focus, button:focus, input:focus, textarea:focus {
-  outline: 2px solid #0056b3;
-  outline-offset: 2px;
-}
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-
-/* Art-specific styling enhancements */
-.art-item {
-    text-align: center;
-}
-
-.art-item canvas {
-    margin: 1rem 0;
-    border-radius: 8px;
-    cursor: pointer;
-}
-
-.btn-expand-art {
-    background: #007bff;
-    color: white;
-    border: none;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    transition: background-color 0.3s ease;
-    margin-top: 0.5rem;
-}
-
-.btn-expand-art:hover {
-    background: #0056b3;
-}
-
-/* Art Modal Styling */
-.art-modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.8);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-}
-
-.art-modal-content {
-    position: relative;
-    background: white;
-    border-radius: 10px;
-    padding: 2rem;
-    max-width: 90vw;
-    max-height: 90vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.art-modal-controls {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    display: flex;
-    gap: 0.5rem;
-    z-index: 1001;
-}
-
-.art-modal-close {
-    background: none;
-    border: none;
-    font-size: 2rem;
-    cursor: pointer;
-    color: #666;
-}
-
-.art-modal-close:hover {
-    color: #333;
-}
-
-.art-regenerate-btn {
-    background: #007bff;
-    border: none;
-    color: white;
-    padding: 0.5rem 1rem;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    font-weight: 500;
-}
-
-.art-regenerate-btn:hover {
-    background: #0056b3;
-}
-
-.art-modal canvas {
-    border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-}
-
-/* Business Ideas Navigation */
-#business-ideas-nav {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 1.5rem;
-    margin: 2rem 0;
-}
-
-#business-ideas-nav h3 {
-    margin-bottom: 1rem;
-    color: #495057;
-    font-size: 1.1rem;
-}
-
-.nav-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-}
-
-.nav-links a {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background-color: #fff;
-    border: 1px solid #dee2e6;
-    border-radius: 20px;
-    text-decoration: none;
-    color: #495057;
-    font-size: 0.9rem;
-    font-weight: 500;
-    transition: all 0.2s ease;
-    white-space: nowrap;
-}
-
-.nav-links a:hover {
-    background-color: #007bff;
-    color: #fff;
-    border-color: #007bff;
-    transform: translateY(-1px);
-}
-
-@media (max-width: 768px) {
-    .nav-links {
-        gap: 0.5rem;
+    * {
+        animation: none !important;
+        transition: none !important;
     }
-
-    .nav-links a {
-        padding: 0.4rem 0.8rem;
-        font-size: 0.85rem;
-    }
-}
-
-/* Resume Page */
-.resume-entry {
-    margin-bottom: 1.5rem;
-    padding-left: 1rem;
-    border-left: 3px solid #007bff;
-}
-
-.resume-entry h4 {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333;
-    margin-bottom: 0.25rem;
-}
-
-.resume-meta {
-    font-size: 0.9rem;
-    color: #666;
-    font-style: italic;
-    margin-bottom: 0.5rem;
-}
-
-.resume-entry ul {
-    margin-top: 0.5rem;
-}
-
-/* Start Here Section */
-.start-here-section {
-    background-color: #f8f9fa;
-    border-radius: 8px;
-    padding: 1.5rem;
-}
-
-.start-here-section h3 {
-    margin-bottom: 1rem;
-    font-size: 1.2rem;
-    color: #333;
-}
-
-.start-here-links {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-    gap: 1rem;
-}
-
-.start-here-card {
-    display: block;
-    padding: 1.25rem;
-    background: #fff;
-    border: 2px solid #007bff;
-    border-radius: 8px;
-    text-decoration: none;
-    color: #333;
-    transition: all 0.2s ease;
-}
-
-.start-here-card:hover {
-    background-color: #007bff;
-    color: #fff;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 123, 255, 0.3);
-    text-decoration: none;
-}
-
-.start-here-card:hover span {
-    color: rgba(255, 255, 255, 0.9);
-}
-
-.start-here-card strong {
-    display: block;
-    font-size: 1.1rem;
-    margin-bottom: 0.4rem;
-    color: #007bff;
-}
-
-.start-here-card:hover strong {
-    color: #fff;
-}
-
-.start-here-card span {
-    font-size: 0.9rem;
-    color: #666;
 }

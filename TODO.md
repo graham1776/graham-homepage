@@ -38,7 +38,11 @@ The posts look like they were edited during the AI migration. Replace with Graha
 - [ ] Informational Interviews: what to do when they don't want to meet (`2016-03-22-informational-interviews-follow-up.md`)
 
 ### Styling
-- [ ] Restyle the site — waiting on Graham's design thoughts
+- [x] Restyle the site in the Print and Pen brand (Caslon on Fog, hairline lists, crest and signature footer, loop on home, disc on contact)
+- [ ] Confirm the footer location line ("Newport Beach, California") and the home hero sentence, which merges the old tagline into one line
+- [ ] `about.md` still has Title Case headings and an "About Graham Wahlberg" heading that repeats the section title; tidy when Graham reviews the copy
+- [ ] One real photograph per page (harbor, job sites, buildings), per the brand; the headshot is the only photo today
+- [ ] Business ideas, Links and About copy predate the brand voice (exclamation marks, "journey" in two blog posts); revisit alongside the verbatim blog restore
 
 ### Projects: keep the site nav around them
 Done: `project.html` shell at `/projects/<folder>/` (sidebar + framed project).
@@ -48,21 +52,14 @@ Done: `project.html` shell at `/projects/<folder>/` (sidebar + framed project).
 - [x] `blog.html` should list posts (title, date, snippet), not render every post in full. Pairs with the per-post pages item below — keep the existing `#anchor` links working (redirect or map them to the new post URLs)
 
 ### New menu item: Talks / Performances
-- [ ] New page (entry point, sidebar nav on every page, sitemap, analytics snippet). Newest first; confirm details for items marked ?
-  - 10/21/2026 — USC MRED Brown Bag Series (upcoming)
-  - 4/14/2026 — NAIOP YPG — "AI and Your Career"
-  - 4/9/2026 — Grace @ Work — "I Didn't Know You Were a Christian"
-  - 10/25/2025 — Spaghettini, Alumni Real Estate Network — "Changing Tides: Navigating the Future of CRE" (panel)
-  - 4/17/2025 — Judge, 2025 NAIOP SoCal Orange County Real Estate Challenge
-  - 5/23/2024 — NAIOP demo with Bennie
-  - 3/12/2024 — NAIOP, ICON West — "AI and Technology in Industrial Real Estate Development" (AI discussion)
-  - ? — Teaching at Sonia Savoulian's class (date?)
-  - ? — Spoke at a TREA event at USC (confirm)
-  - ? — Commencement address, Fresno State (date?)
-  - ? — Library opening, Fresno State (date?)
-  - 2005 — Commencement address, Bullard High
-  - 2005 — Baccalaureate, Bullard High
-  - (Graham left a few blank slots — more to add)
+- [x] `talks.html` live, grouped by year, newest first (from Graham's researched list, Sept 2026)
+- [ ] After Oct 21, 2026: move the USC MRED Brown Bag from Upcoming into 2026
+- [ ] Held back until confirmed (add to `talks.html` once they are):
+  - 4/22/2009: Peace Garden re-opening, featured guest (remarks unconfirmed)
+  - 2011–12: TREA event at USC, speaker (not yet located)
+  - c. 2013–15: Goodman USC / MRED overview, presenter
+  - Feb 2026: Goodman leadership briefing on AI & robotics (confirm it was delivered live, and whether it belongs on a public page)
+- [ ] Fill in dates: NAIOP-U with Bennie Seybold (4/25 or 5/23/2024; shows "Spring"), Sonia Savoulian's class, Fresno State Commencement (Spring 2009)
 
 ## Nice-to-haves (post-launch)
 
